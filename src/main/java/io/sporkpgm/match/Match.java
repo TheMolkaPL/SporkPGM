@@ -14,4 +14,12 @@ public class Match {
 		this.world = world;
 	}
 
+	public SporkMap getMap() {
+		return map;
+	}
+
+	public World getWorld() {
+		return world;
+	}
+
 }

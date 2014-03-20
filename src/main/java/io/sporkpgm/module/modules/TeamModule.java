@@ -23,7 +23,8 @@ public class TeamModule extends Module {
 	private Collection<SporkTeam> teams;
 
 	public TeamModule(SporkTeam defaultTeam, Collection<SporkTeam> teams) {
-
+		this.defaultTeam = defaultTeam;
+		this.teams = teams;
 	}
 
 	public void enable() {}
@@ -58,7 +59,7 @@ public class TeamModule extends Module {
 
 	public Collection<SporkTeam> getAllTeams() {
 		List<SporkTeam> allTeams = Lists.newArrayList(teams);
-		allTeams.add(defaultTeam);
+		allTeams.add(getDefaultTeam());
 		return allTeams;
 	}
 

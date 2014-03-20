@@ -21,6 +21,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.joda.time.Duration;
 import org.joda.time.Instant;
 
@@ -41,7 +42,12 @@ public class Spork extends JavaPlugin {
 	private MapManager mapManager;
 	private MatchManager matchManager;
 
-	@Override
+	public void onDisable() {
+		this.matchManager.deleteMatch(this.matchManager.getCurrentMatch());
+		
+		spork = null;
+	}
+	
 	public void onEnable() {
 		Instant start = Instant.now();
 		spork = this;
@@ -70,13 +76,28 @@ public class Spork extends JavaPlugin {
 		Log.info("Loading rotation...");
 		File rotationFile = new File(this.getDataFolder(), Config.Rotation.ROTATION);
 		Rotation rotation = new Rotation(mapManager, rotationFile);
-		this.matchManager = new MatchManager(rotation);
-		Log.debug("Rotation consists of " + rotation.getRotation().size() + " maps.");
+		this.matchManager = new MatchManager(mapManager, rotation);
+		Log.debug("Loaded " + rotation.getRotation().size() + " map" + (rotation.getRotation().size() != 1 ? "s" : "") + " in rotation!");
 
 		Log.info("Loading commands...");
 		this.registerCommands();
 
 		Log.info("Successfully enabled in " + new Duration(start, Instant.now()).getMillis() + "ms!");
+		
+		Log.info("Starting the match cycle...");
+		this.matchManager.cycle(null);
+		
+		new BukkitRunnable() {
+			public void run() {
+				matchManager.cycle();
+			}
+		}.runTaskLater(this, 100L);
+		
+		new BukkitRunnable() {
+			public void run() {
+				matchManager.cycle();
+			}
+		}.runTaskLater(this, 200L);
 	}
 
 	private void registerCommands() {
