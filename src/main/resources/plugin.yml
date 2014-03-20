@@ -1,4 +1,4 @@
-name: ${plugin.Name}
+name: ${name}
 version: ${version}
 main: ${plugin.mainClass}
 authors: [ParaPenguin, RainoBoy97]

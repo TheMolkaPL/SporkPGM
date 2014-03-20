@@ -8,7 +8,7 @@ public class MapManager extends ContextStore<SporkMap> {
 
 	public MapManager(Collection<SporkMap> maps) {
 		for (SporkMap map : maps)
-			add("NAME HERE LATER", map);
+			add(map.getName(), map);
 	}
 
 	public Collection<SporkMap> getMaps() {

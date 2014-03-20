@@ -1,6 +1,7 @@
 package io.sporkpgm.map;
 
 import io.sporkpgm.util.Config;
+import io.sporkpgm.util.Log;
 
 import java.io.File;
 import java.util.Collection;
@@ -15,7 +16,9 @@ public class MapLoader {
 		for (File f : dir.listFiles()) {
 			if (!valid(f))
 				continue;
-			// TODO: Actually load the map
+			SporkMap map = new SporkMap(f);
+			Log.debug("Loaded map " + map.getName() + " v" + map.getInfo().getVersion() + ".");
+			maps.add(map);
 		}
 		return maps;
 	}
