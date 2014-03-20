@@ -63,6 +63,7 @@ public class Spork extends JavaPlugin {
 			return;
 		}
 
+		Log.debug("Loaded " + maps.size() + " map" + (maps.size() != 1 ? "s" : "") + " in total!");
 		this.mapManager = new MapManager(maps);
 
 		Log.info("Loading rotation...");
@@ -94,6 +95,14 @@ public class Spork extends JavaPlugin {
 		} catch (ModuleLoadException e) {
 			Log.log(e);
 		}
+	}
+
+	public MapManager getMapManager() {
+		return mapManager;
+	}
+
+	public MatchManager getMatchManager() {
+		return matchManager;
 	}
 
 	@Override
