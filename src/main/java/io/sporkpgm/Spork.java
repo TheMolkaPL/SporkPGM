@@ -9,6 +9,7 @@ import io.sporkpgm.match.MatchManager;
 import io.sporkpgm.module.ModuleRegistry;
 import io.sporkpgm.module.exceptions.ModuleLoadException;
 import io.sporkpgm.module.modules.InfoModule;
+import io.sporkpgm.module.modules.TeamModule;
 import io.sporkpgm.rotation.Rotation;
 import io.sporkpgm.util.Config;
 import io.sporkpgm.util.Log;
@@ -92,6 +93,7 @@ public class Spork extends JavaPlugin {
 	private void registerModules() {
 		try {
 			ModuleRegistry.register(InfoModule.class);
+			ModuleRegistry.register(TeamModule.class);
 		} catch (ModuleLoadException e) {
 			Log.log(e);
 		}

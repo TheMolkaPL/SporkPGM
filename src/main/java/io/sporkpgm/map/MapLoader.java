@@ -1,5 +1,7 @@
 package io.sporkpgm.map;
 
+import io.sporkpgm.module.modules.TeamModule;
+import io.sporkpgm.team.SporkTeam;
 import io.sporkpgm.util.Config;
 import io.sporkpgm.util.Log;
 
@@ -19,6 +21,10 @@ public class MapLoader {
 			SporkMap map = new SporkMap(f);
 			Log.debug("Loaded map " + map.getName() + " v" + map.getInfo().getVersion() + ".");
 			maps.add(map);
+
+			for (SporkTeam t : ((TeamModule) map.getModule(TeamModule.class)).getAllTeams()) {
+				Log.debug(t.getColoredName());
+			}
 		}
 		return maps;
 	}

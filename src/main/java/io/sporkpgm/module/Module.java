@@ -1,9 +1,14 @@
 package io.sporkpgm.module;
 
-public interface Module {
+import org.dom4j.Document;
 
-	public void enable();
+public abstract class Module {
 
-	public void disable();
+	public abstract void enable();
 
+	public abstract void disable();
+	
+	public static Module parse(Document doc) {
+		return null;
+	}
 }

@@ -13,7 +13,7 @@ import org.dom4j.Element;
 import com.google.common.collect.Lists;
 
 @ModuleInfo(module = InfoModule.class, name = "InfoModule")
-public class InfoModule implements Module {
+public class InfoModule extends Module {
 
 	private String name;
 	private String version;

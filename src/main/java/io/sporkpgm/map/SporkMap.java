@@ -1,5 +1,6 @@
 package io.sporkpgm.map;
 
+import io.sporkpgm.module.Module;
 import io.sporkpgm.module.ModuleContainer;
 import io.sporkpgm.module.modules.InfoModule;
 import io.sporkpgm.util.Config;
@@ -30,16 +31,24 @@ public class SporkMap {
 			this.moduleContainer = new ModuleContainer(doc);
 	}
 
-	public InfoModule getInfo() {
-		return (InfoModule) moduleContainer.getModule(InfoModule.class);
+	public Module getModule(Class<? extends Module> module) {
+		return moduleContainer.getModule(module);
 	}
-	
+
+	public InfoModule getInfo() {
+		return (InfoModule) getModule(InfoModule.class);
+	}
+
 	public String getName() {
 		return getInfo().getName();
 	}
 
 	public File getFolder() {
 		return folder;
+	}
+
+	public String toString() {
+		return getName();
 	}
 
 }

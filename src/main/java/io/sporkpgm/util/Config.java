@@ -65,4 +65,12 @@ public class Config {
 
 	}
 
+	public static class Team {
+
+		public static final String DEFAULT_NAME = get("team.default-name", "Observers");
+		public static final ChatColor DEFAULT_COLOR = XMLUtils.parseChatColor((String) get("team.default-color", "Aqua"));
+		public static final int DEFAULT_MAX = get("team.default-max", Integer.MAX_VALUE);
+
+	}
+
 }

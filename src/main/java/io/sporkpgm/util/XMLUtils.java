@@ -154,6 +154,10 @@ public class XMLUtils {
 		return null;
 	}
 
+	public static Integer parseInteger(String text) {
+		return parseInteger(text, 0);
+	}
+
 	public static Integer parseInteger(String text, int i) {
 		try {
 			return Integer.parseInt(text);

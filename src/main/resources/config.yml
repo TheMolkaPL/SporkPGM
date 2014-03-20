@@ -10,3 +10,8 @@ rotation:
   
 match:
   prefix: match-
+  
+team:
+  default-name: Observers
+  default-color: AQUA
+  default-max: 1000
