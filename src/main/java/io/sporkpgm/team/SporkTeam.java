@@ -1,8 +1,12 @@
 package io.sporkpgm.team;
 
+import io.sporkpgm.match.Match;
+
 import org.bukkit.ChatColor;
 
 public class SporkTeam {
+
+	private Match match;
 
 	private String name;
 	private ChatColor color;
@@ -20,7 +24,7 @@ public class SporkTeam {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -40,7 +44,16 @@ public class SporkTeam {
 	public String getColoredName() {
 		return getColor() + getName();
 	}
+
+	public Match getMatch() {
+		return match;
+	}
 	
+	public SporkTeam update(Match match) {
+		this.match = match;
+		return this;
+	}
+
 	public String toString() {
 		return getName();
 	}

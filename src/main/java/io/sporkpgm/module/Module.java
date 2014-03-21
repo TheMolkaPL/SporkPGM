@@ -7,8 +7,8 @@ public abstract class Module {
 	public abstract void enable();
 
 	public abstract void disable();
-	
-	public static Module parse(Document doc) {
+
+	public static Module parse(ModuleContainer moduleContainer, Document doc) throws Exception {
 		return null;
 	}
 }

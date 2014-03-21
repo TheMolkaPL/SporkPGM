@@ -2,6 +2,7 @@ package io.sporkpgm.module.modules;
 
 import io.sporkpgm.map.extra.Contributor;
 import io.sporkpgm.module.Module;
+import io.sporkpgm.module.ModuleContainer;
 import io.sporkpgm.module.ModuleInfo;
 import io.sporkpgm.util.XMLUtils;
 
@@ -35,7 +36,7 @@ public class InfoModule extends Module {
 
 	public void disable() {}
 
-	public static Module parse(Document doc) {
+	public static Module parse(ModuleContainer moduleContainer, Document doc) {
 		Element root = doc.getRootElement();
 
 		String name = root.elementText("name");

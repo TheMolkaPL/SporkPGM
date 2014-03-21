@@ -1,6 +1,7 @@
 package io.sporkpgm.module;
 
 import io.sporkpgm.module.exceptions.ModuleLoadException;
+import io.sporkpgm.region.RegionContainer;
 import io.sporkpgm.util.Log;
 
 import java.lang.reflect.Method;
@@ -12,9 +13,14 @@ import org.dom4j.Document;
 import com.google.common.collect.Maps;
 
 public class ModuleContainer {
+
 	private HashMap<Module, ModuleInfo> modules = Maps.newHashMap();
 
+	private RegionContainer regionContainer;
+
 	public ModuleContainer(Document doc) {
+		this.regionContainer = new RegionContainer();
+
 		for (ModuleInfo info : ModuleRegistry.getModules()) {
 			try {
 				addModule(info, doc);
@@ -49,10 +55,10 @@ public class ModuleContainer {
 		}
 		if (registered(info))
 			return;
-		Method method = info.module().getMethod("parse", new Class[] { Document.class });
+		Method method = info.module().getMethod("parse", new Class[] { ModuleContainer.class, Document.class });
 		if (method == null)
 			return;
-		Module module = (Module) method.invoke(null, new Object[] { doc });
+		Module module = (Module) method.invoke(null, new Object[] { this, doc });
 		modules.put(module, info);
 	}
 
@@ -61,6 +67,10 @@ public class ModuleContainer {
 			if (entry.getValue().name().equals(info.name()))
 				return true;
 		return false;
+	}
+
+	public RegionContainer getRegionContainer() {
+		return regionContainer;
 	}
 
 }

@@ -1,10 +1,12 @@
 package io.sporkpgm.module.modules;
 
 import io.sporkpgm.module.Module;
+import io.sporkpgm.module.ModuleContainer;
 import io.sporkpgm.module.ModuleInfo;
 import io.sporkpgm.team.SporkTeam;
 import io.sporkpgm.team.SporkTeam.TeamType;
 import io.sporkpgm.util.Config;
+import io.sporkpgm.util.StringUtils;
 import io.sporkpgm.util.XMLUtils;
 
 import java.util.Collection;
@@ -31,7 +33,7 @@ public class TeamModule extends Module {
 
 	public void disable() {}
 
-	public static Module parse(Document doc) {
+	public static Module parse(ModuleContainer moduleContainer, Document doc) {
 		Element root = doc.getRootElement();
 
 		List<SporkTeam> teams = Lists.newArrayList();
@@ -55,6 +57,10 @@ public class TeamModule extends Module {
 
 	public Collection<SporkTeam> getTeams() {
 		return teams;
+	}
+
+	public SporkTeam getTeam(String query) {
+		return StringUtils.fuzzySearch(getTeams(), query);
 	}
 
 	public Collection<SporkTeam> getAllTeams() {

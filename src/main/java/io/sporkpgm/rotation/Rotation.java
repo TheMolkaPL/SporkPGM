@@ -29,16 +29,15 @@ public class Rotation {
 		return rotation;
 	}
 
-	@SuppressWarnings("unchecked")
 	private List<SporkMap> loadRotation(File rotation) {
 		List<String> raw = Lists.newArrayList();
-		
+
 		try {
 			raw = FileUtils.readLines(new File(Spork.get().getDataFolder(), Config.Rotation.ROTATION));
 		} catch (Exception e) {
 			Log.log(e);
 		}
-		
+
 		List<SporkMap> maps = Lists.newArrayList();
 
 		for (String s : raw) {

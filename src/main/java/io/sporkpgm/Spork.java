@@ -2,6 +2,7 @@ package io.sporkpgm;
 
 import io.sporkpgm.commands.AdminCommands;
 import io.sporkpgm.commands.UserCommands;
+import io.sporkpgm.listener.PlayerListener;
 import io.sporkpgm.map.MapLoader;
 import io.sporkpgm.map.MapManager;
 import io.sporkpgm.map.SporkMap;
@@ -9,6 +10,8 @@ import io.sporkpgm.match.MatchManager;
 import io.sporkpgm.module.ModuleRegistry;
 import io.sporkpgm.module.exceptions.ModuleLoadException;
 import io.sporkpgm.module.modules.InfoModule;
+import io.sporkpgm.module.modules.RegionModule;
+import io.sporkpgm.module.modules.SpawnModule;
 import io.sporkpgm.module.modules.TeamModule;
 import io.sporkpgm.rotation.Rotation;
 import io.sporkpgm.util.Config;
@@ -20,8 +23,8 @@ import java.util.Collection;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.joda.time.Duration;
 import org.joda.time.Instant;
 
@@ -44,10 +47,10 @@ public class Spork extends JavaPlugin {
 
 	public void onDisable() {
 		this.matchManager.deleteMatch(this.matchManager.getCurrentMatch());
-		
+
 		spork = null;
 	}
-	
+
 	public void onEnable() {
 		Instant start = Instant.now();
 		spork = this;
@@ -62,14 +65,12 @@ public class Spork extends JavaPlugin {
 		MapLoader loader = new MapLoader();
 		File mapDir = new File(Config.Map.DIRECTORY);
 		Collection<SporkMap> maps = loader.loadMaps(mapDir);
-
 		if (maps.size() < 1) {
 			Log.warning("I need at least 1 (one) map in order to function!");
 			Log.warning("Disabling...");
 			this.getServer().getPluginManager().disablePlugin(this);
 			return;
 		}
-
 		Log.debug("Loaded " + maps.size() + " map" + (maps.size() != 1 ? "s" : "") + " in total!");
 		this.mapManager = new MapManager(maps);
 
@@ -77,27 +78,24 @@ public class Spork extends JavaPlugin {
 		File rotationFile = new File(this.getDataFolder(), Config.Rotation.ROTATION);
 		Rotation rotation = new Rotation(mapManager, rotationFile);
 		this.matchManager = new MatchManager(mapManager, rotation);
+		if (rotation.getRotation().size() < 1) {
+			Log.warning("I need at least 1 (one) map in rotation in order to function!");
+			Log.warning("Disabling...");
+			this.getServer().getPluginManager().disablePlugin(this);
+			return;
+		}
 		Log.debug("Loaded " + rotation.getRotation().size() + " map" + (rotation.getRotation().size() != 1 ? "s" : "") + " in rotation!");
 
 		Log.info("Loading commands...");
 		this.registerCommands();
 
+		Log.info("Loading listeners...");
+		this.registerListeners();
+
 		Log.info("Successfully enabled in " + new Duration(start, Instant.now()).getMillis() + "ms!");
-		
+
 		Log.info("Starting the match cycle...");
 		this.matchManager.cycle(null);
-		
-		new BukkitRunnable() {
-			public void run() {
-				matchManager.cycle();
-			}
-		}.runTaskLater(this, 100L);
-		
-		new BukkitRunnable() {
-			public void run() {
-				matchManager.cycle();
-			}
-		}.runTaskLater(this, 200L);
 	}
 
 	private void registerCommands() {
@@ -115,9 +113,16 @@ public class Spork extends JavaPlugin {
 		try {
 			ModuleRegistry.register(InfoModule.class);
 			ModuleRegistry.register(TeamModule.class);
+			ModuleRegistry.register(RegionModule.class);
+			ModuleRegistry.register(SpawnModule.class);
 		} catch (ModuleLoadException e) {
 			Log.log(e);
 		}
+	}
+
+	private void registerListeners() {
+		PluginManager pm = this.getServer().getPluginManager();
+		pm.registerEvents(new PlayerListener(), this);
 	}
 
 	public MapManager getMapManager() {

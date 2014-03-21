@@ -31,12 +31,16 @@ public class SporkMap {
 			this.moduleContainer = new ModuleContainer(doc);
 	}
 
-	public Module getModule(Class<? extends Module> module) {
-		return moduleContainer.getModule(module);
-	}
-
 	public InfoModule getInfo() {
 		return (InfoModule) getModule(InfoModule.class);
+	}
+
+	public Module getModule(Class<? extends Module> module) {
+		return getModuleContainer().getModule(module);
+	}
+
+	public ModuleContainer getModuleContainer() {
+		return moduleContainer;
 	}
 
 	public String getName() {
