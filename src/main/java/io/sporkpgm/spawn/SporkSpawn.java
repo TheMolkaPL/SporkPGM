@@ -2,6 +2,7 @@ package io.sporkpgm.spawn;
 
 import io.sporkpgm.match.Match;
 import io.sporkpgm.region.Region;
+import io.sporkpgm.region.regions.BlockRegion;
 import io.sporkpgm.region.regions.CuboidRegion;
 import io.sporkpgm.region.regions.CylinderRegion;
 import io.sporkpgm.team.SporkTeam;
@@ -31,6 +32,8 @@ public class SporkSpawn {
 			loc = ((CuboidRegion) region).getRandom();
 		else if (region instanceof CylinderRegion)
 			loc = ((CylinderRegion) region).getRandom();
+		else if(region instanceof BlockRegion)
+			loc = ((BlockRegion) region).getVector();
 		Location l = loc.toLocation(match.getWorld(), yaw, 0);
 		return l;
 	}

@@ -13,13 +13,18 @@ import com.sk89q.minecraft.util.commands.CommandException;
 
 public class UserCommands {
 
+	@Command(aliases = { "join" }, desc = "Lets you join a team, to play the match", min = 0, max = -1)
+	public static void join(CommandContext args, CommandSender sender) throws CommandException {
+
+	}
+
 	@Command(aliases = { "listmaps", "maps" }, desc = "Lists all the loaded maps on the server", min = 0, max = 1)
 	public static void maps(CommandContext args, CommandSender sender) throws CommandException {
 		new PaginatedResult<SporkMap>("Loaded maps") {
 			public String format(SporkMap map, int index) {
 				return (index + 1) + ". " + ChatColor.GOLD + map.getName();
 			}
-		}.display(sender, Spork.get().getMapManager().getMaps(), args.getInteger(0, 1));;
+		}.display(sender, Spork.get().getMapManager().getMaps(), args.getInteger(0, 1));
 	}
 
 	@Command(aliases = { "rotation", "rot" }, desc = "Lists all the maps in the rotation", min = 0, max = 1)
@@ -28,7 +33,7 @@ public class UserCommands {
 			public String format(SporkMap map, int index) {
 				return (index + 1) + ". " + ChatColor.GOLD + map.getName();
 			}
-		}.display(sender, Spork.get().getMatchManager().getRotation(), args.getInteger(0, 1));;
+		}.display(sender, Spork.get().getMatchManager().getRotation(), args.getInteger(0, 1));
 	}
 
 	@Command(aliases = { "nextmap", "next", "nm" }, desc = "Shows the next map played", min = 0, max = 0)

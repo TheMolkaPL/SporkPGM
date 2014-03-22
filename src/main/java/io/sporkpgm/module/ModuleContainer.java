@@ -55,10 +55,10 @@ public class ModuleContainer {
 		}
 		if (registered(info))
 			return;
-		Method method = info.module().getMethod("parse", new Class[] { ModuleContainer.class, Document.class });
+		Method method = info.module().getMethod("parse", ModuleContainer.class, Document.class);
 		if (method == null)
 			return;
-		Module module = (Module) method.invoke(null, new Object[] { this, doc });
+		Module module = (Module) method.invoke(null, this, doc);
 		modules.put(module, info);
 	}
 

@@ -45,7 +45,7 @@ public class RegionParser {
 			region = parseCylinder(ele);
 		else if (type.equalsIgnoreCase("sphere"))
 			region = parseSphere(ele);
-		else if (type.equalsIgnoreCase("block"))
+		else if (type.equalsIgnoreCase("block") || type.equalsIgnoreCase("point"))
 			region = parseBlock(ele);
 		else if (type.equalsIgnoreCase("negative"))
 			region = parseNegative(ele);
