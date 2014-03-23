@@ -54,6 +54,10 @@ public class SporkEvent extends Event implements Cancellable {
 	public Event getParent() {
 		return parent;
 	}
+	
+	public boolean hasParent() {
+		return getParent() != null;
+	}
 
 	public Player getPlayer() {
 		return player;

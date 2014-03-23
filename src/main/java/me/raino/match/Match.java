@@ -5,7 +5,9 @@ import java.util.List;
 import me.raino.base.SporkPlayer;
 import me.raino.map.SporkMap;
 import me.raino.module.ModuleContainer;
+import me.raino.module.modules.TeamModule;
 import me.raino.team.SporkTeam;
+import me.raino.util.Config;
 
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -27,21 +29,25 @@ public class Match {
 	private MatchState state;
 
 	private List<SporkTeam> teams = Lists.newArrayList();
-
-	private List<SporkPlayer> players = Lists.newArrayList();
+	private SporkTeam defaultTeam;
 
 	public Match(SporkMap map, World world) {
 		this.map = map;
 		this.world = world;
 
 		this.moduleContainer = getMap().getModuleContainer();
+
+		this.teams = ((TeamModule) getMap().getModule(TeamModule.class)).getAllTeams();
+		this.defaultTeam = getTeam(Config.Team.DEFAULT_NAME);
 	}
 
 	public boolean setState(MatchState state) {
 		if (this.state == null || this.state.next() == state) {
 			this.state = state;
-			if(state == MatchState.RUNNING) this.started = Instant.now();
-			else if(state == MatchState.ENDED) this.ended = Instant.now();
+			if (state == MatchState.RUNNING)
+				this.started = Instant.now();
+			else if (state == MatchState.ENDED)
+				this.ended = Instant.now();
 			return true;
 		}
 		return false;
@@ -66,11 +72,13 @@ public class Match {
 			broadcast(ChatColor.DARK_PURPLE + "# # " + winner.getColoredName() + " wins!" + ChatColor.DARK_PURPLE + " # #");
 		broadcast(ChatColor.DARK_PURPLE + "# # # # # # # # # # # #");
 	}
-	
+
 	public Duration getLenght() {
-		if(started == null) return null;
+		if (started == null)
+			return null;
 		Instant ended = this.ended;
-		if(ended == null) ended = Instant.now();
+		if (ended == null)
+			ended = Instant.now();
 		return new Duration(started, ended);
 	}
 
@@ -79,7 +87,29 @@ public class Match {
 			u.sendMessage(message);
 	}
 
+	public void join(SporkPlayer player) {
+		player.setTeam(getDefaultTeam());
+		player.reset();
+	}
+
+	public SporkTeam getTeam(String search) {
+		for (SporkTeam st : getTeams())
+			if (st.getName().equalsIgnoreCase(search))
+				return st;
+		return null;
+	}
+
+	public SporkTeam getDefaultTeam() {
+		return defaultTeam;
+	}
+
+	public List<SporkTeam> getTeams() {
+		return teams;
+	}
+
 	public List<SporkPlayer> getPlayers() {
+		List<SporkPlayer> players = Lists.newArrayList();
+		for(SporkPlayer sp : SporkPlayer.getPlayers()) if(sp.getMatch() == this) players.add(sp);
 		return players;
 	}
 

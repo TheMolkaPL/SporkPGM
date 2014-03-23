@@ -1,12 +1,18 @@
 package me.raino.base;
 
+import java.util.List;
+
 import me.raino.match.Match;
 import me.raino.team.SporkTeam;
 
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 
+import com.google.common.collect.Lists;
+
 public class SporkPlayer {
+
+	private static final List<SporkPlayer> players = Lists.newArrayList();
 
 	private Match match;
 	private SporkTeam team;
@@ -41,6 +47,20 @@ public class SporkPlayer {
 		getPlayer().sendMessage(message);
 	}
 
+	public String getColoredName() {
+		return getTeam().getColor() + getPlayer().getName();
+	}
+
+	public void setTeam(SporkTeam team) {
+		this.team = team;
+		this.match = team.getMatch();
+
+		String name = getColoredName();
+		if (name.length() > 16)
+			name = name.substring(0, 15);
+		getPlayer().setPlayerListName(name);
+	}
+
 	public Match getMatch() {
 		return match;
 	}
@@ -55,6 +75,21 @@ public class SporkPlayer {
 
 	public String getName() {
 		return getPlayer().getName();
+	}
+
+	public static List<SporkPlayer> getPlayers() {
+		return players;
+	}
+
+	public static SporkPlayer getPlayer(String player) {
+		for (SporkPlayer sp : getPlayers())
+			if (sp.getName().equalsIgnoreCase(player))
+				return sp;
+		return null;
+	}
+
+	public static SporkPlayer getPlayer(Player player) {
+		return getPlayer(player.getName());
 	}
 
 }

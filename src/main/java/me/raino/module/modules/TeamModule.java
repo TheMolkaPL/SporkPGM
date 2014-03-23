@@ -1,6 +1,5 @@
 package me.raino.module.modules;
 
-import java.util.Collection;
 import java.util.List;
 
 import me.raino.module.Module;
@@ -22,9 +21,9 @@ import com.google.common.collect.Lists;
 public class TeamModule extends Module {
 
 	private SporkTeam defaultTeam;
-	private Collection<SporkTeam> teams;
+	private List<SporkTeam> teams;
 
-	public TeamModule(SporkTeam defaultTeam, Collection<SporkTeam> teams) {
+	public TeamModule(SporkTeam defaultTeam, List<SporkTeam> teams) {
 		this.defaultTeam = defaultTeam;
 		this.teams = teams;
 	}
@@ -55,7 +54,7 @@ public class TeamModule extends Module {
 		return defaultTeam;
 	}
 
-	public Collection<SporkTeam> getTeams() {
+	public List<SporkTeam> getTeams() {
 		return teams;
 	}
 
@@ -63,7 +62,7 @@ public class TeamModule extends Module {
 		return StringUtils.fuzzySearch(getTeams(), query);
 	}
 
-	public Collection<SporkTeam> getAllTeams() {
+	public List<SporkTeam> getAllTeams() {
 		List<SporkTeam> allTeams = Lists.newArrayList(teams);
 		allTeams.add(getDefaultTeam());
 		return allTeams;

@@ -5,7 +5,9 @@ import java.util.Collection;
 
 import me.raino.commands.AdminCommands;
 import me.raino.commands.UserCommands;
+import me.raino.listener.BlockListener;
 import me.raino.listener.PlayerListener;
+import me.raino.listener.SporkListener;
 import me.raino.map.MapLoader;
 import me.raino.map.MapManager;
 import me.raino.map.SporkMap;
@@ -123,6 +125,8 @@ public class Spork extends JavaPlugin {
 	private void registerListeners() {
 		PluginManager pm = this.getServer().getPluginManager();
 		pm.registerEvents(new PlayerListener(), this);
+		pm.registerEvents(new BlockListener(), this);
+		pm.registerEvents(new SporkListener(), this);
 	}
 
 	public MapManager getMapManager() {

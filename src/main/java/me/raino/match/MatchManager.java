@@ -4,10 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import me.raino.event.MatchCycleEvent;
 import me.raino.map.MapManager;
 import me.raino.map.SporkMap;
 import me.raino.rotation.Rotation;
 import me.raino.util.Config;
+import me.raino.util.EventUtils;
 import me.raino.util.Log;
 
 import org.apache.commons.io.FileUtils;
@@ -90,11 +92,13 @@ public class MatchManager {
 		return cycle(getCurrentMatch());
 	}
 	
-	public Match cycle(Match old) {
+	public Match cycle(Match oldMatch) {
 		Match newMatch = createMatch(getNextAndIncrement(), Config.Match.PREFIX + ++matchId);
 		
-		if(old != null) {
-			deleteMatch(old);
+		if(oldMatch != null) {
+			MatchCycleEvent mce = new MatchCycleEvent(oldMatch, newMatch);
+			EventUtils.callEvent(mce);
+			deleteMatch(oldMatch);
 		}
 		
 		return newMatch;
