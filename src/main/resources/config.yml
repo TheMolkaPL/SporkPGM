@@ -15,3 +15,6 @@ team:
   default-name: Observers
   default-color: AQUA
   default-max: 1000
+
+motd:
+  - &aTest motd

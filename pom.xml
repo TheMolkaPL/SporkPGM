@@ -3,30 +3,25 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>io.sporkpgm</groupId>
-	<artifactId>SporkPGM</artifactId>
+	<groupId>me.raino</groupId>
+	<artifactId>RainoPGM</artifactId>
 	<version>1.0-SNAPSHOT</version>
 
 	<properties>
-		<plugin.mainClass>io.sporkpgm.Spork</plugin.mainClass>
+		<plugin.mainClass>${groupId}.Spork</plugin.mainClass>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<dependencies>
-		<dependency>
+	<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.7.2-R0.1-SNAPSHOT</version>
+			<version>1.7.2-R0.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit</artifactId>
 			<version>1.6.4-R0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.sk89q</groupId>
-			<artifactId>command-framework-core</artifactId>
-			<version>0.5-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sk89q</groupId>
