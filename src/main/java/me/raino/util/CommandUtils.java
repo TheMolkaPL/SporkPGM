@@ -2,6 +2,7 @@ package me.raino.util;
 
 import me.raino.Spork;
 import me.raino.map.SporkMap;
+import me.raino.team.SporkTeam;
 
 import org.bukkit.command.CommandException;
 import org.bukkit.command.CommandSender;
@@ -20,6 +21,13 @@ public class CommandUtils {
 		if (map == null)
 			throw new CommandException("No maps matched query!");
 		return map;
+	}
+
+	public static SporkTeam getTeam(String query) {
+		SporkTeam team = StringUtils.fuzzySearch(Spork.get().getMatchManager().getCurrentMatch().getTeams(), query);
+		if (team == null)
+			throw new CommandException("No teams matched query!");
+		return team;
 	}
 
 }

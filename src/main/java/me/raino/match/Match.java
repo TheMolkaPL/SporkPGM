@@ -9,6 +9,7 @@ import me.raino.module.modules.TeamModule;
 import me.raino.team.SporkTeam;
 import me.raino.util.Config;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.joda.time.Duration;
@@ -58,19 +59,19 @@ public class Match {
 			return;
 		moduleContainer.enableModules();
 
-		broadcast(ChatColor.DARK_PURPLE + "# # # # # # # # # # # # # # # # ");
-		broadcast(ChatColor.DARK_PURPLE + "# # " + ChatColor.GOLD + "The match has started!" + ChatColor.DARK_PURPLE + " # #");
-		broadcast(ChatColor.DARK_PURPLE + "# # # # # # # # # # # # # # # #");
+		Bukkit.broadcastMessage(ChatColor.DARK_PURPLE + "# # # # # # # # # # # # # # # # ");
+		Bukkit.broadcastMessage(ChatColor.DARK_PURPLE + "# # " + ChatColor.GOLD + "The match has started!" + ChatColor.DARK_PURPLE + " # #");
+		Bukkit.broadcastMessage(ChatColor.DARK_PURPLE + "# # # # # # # # # # # # # # # #");
 	}
 
 	public void end(SporkTeam winner) {
 		if (!setState(MatchState.ENDED))
 			return;
-		broadcast(ChatColor.DARK_PURPLE + "# # # # # # # # # # # #");
-		broadcast(ChatColor.DARK_PURPLE + "# # " + ChatColor.GOLD + "   Game Over!   " + ChatColor.DARK_PURPLE + " # #");
+		Bukkit.broadcastMessage(ChatColor.DARK_PURPLE + "# # # # # # # # # # # #");
+		Bukkit.broadcastMessage(ChatColor.DARK_PURPLE + "# # " + ChatColor.GOLD + "   Game Over!   " + ChatColor.DARK_PURPLE + " # #");
 		if (winner != null)
-			broadcast(ChatColor.DARK_PURPLE + "# # " + winner.getColoredName() + " wins!" + ChatColor.DARK_PURPLE + " # #");
-		broadcast(ChatColor.DARK_PURPLE + "# # # # # # # # # # # #");
+			Bukkit.broadcastMessage(ChatColor.DARK_PURPLE + "# # " + winner.getColoredName() + " wins!" + ChatColor.DARK_PURPLE + " # #");
+		Bukkit.broadcastMessage(ChatColor.DARK_PURPLE + "# # # # # # # # # # # #");
 	}
 
 	public Duration getLenght() {
@@ -82,14 +83,21 @@ public class Match {
 		return new Duration(started, ended);
 	}
 
-	public void broadcast(String message) {
-		for (SporkPlayer u : getPlayers())
-			u.sendMessage(message);
+	public boolean isRunning() {
+		return state == MatchState.RUNNING;
+	}
+
+	public boolean isFinished() {
+		return state == MatchState.ENDED || state == MatchState.CYCLING;
 	}
 
 	public void join(SporkPlayer player) {
 		player.setTeam(getDefaultTeam());
 		player.reset();
+	}
+
+	public void leave(SporkPlayer player) {
+
 	}
 
 	public SporkTeam getTeam(String search) {
@@ -109,7 +117,9 @@ public class Match {
 
 	public List<SporkPlayer> getPlayers() {
 		List<SporkPlayer> players = Lists.newArrayList();
-		for(SporkPlayer sp : SporkPlayer.getPlayers()) if(sp.getMatch() == this) players.add(sp);
+		for (SporkPlayer sp : SporkPlayer.getPlayers())
+			if (sp.getMatch() == this)
+				players.add(sp);
 		return players;
 	}
 

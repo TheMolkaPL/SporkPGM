@@ -1,9 +1,12 @@
 package me.raino.commands;
 
 import me.raino.Spork;
+import me.raino.base.SporkPlayer;
 import me.raino.map.SporkMap;
+import me.raino.util.CommandUtils;
 import me.raino.util.PaginatedResult;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -16,6 +19,15 @@ public class UserCommands {
 	@Command(aliases = { "join" }, desc = "Lets you join a team, to play the match", min = 0, max = -1)
 	public static void join(CommandContext args, CommandSender sender) throws CommandException {
 
+	}
+
+	@Command(aliases = { "g" }, desc = "Lets you talk globally to all teams", min = 1, max = -1)
+	public static void global(CommandContext args, CommandSender sender) {
+		String message = args.getJoinedStrings(0);
+		
+		SporkPlayer player = SporkPlayer.getPlayer(CommandUtils.getPlayer(sender));
+		
+		Bukkit.broadcastMessage("<" + player.getColoredName() + ChatColor.WHITE + ">: " + message);
 	}
 
 	@Command(aliases = { "listmaps", "maps" }, desc = "Lists all the loaded maps on the server", min = 0, max = 1)

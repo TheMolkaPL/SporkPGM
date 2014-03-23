@@ -21,6 +21,8 @@ public class SporkPlayer {
 
 	public SporkPlayer(Player player) {
 		this.player = player;
+		
+		players.add(this);
 	}
 
 	public void reset() {
@@ -42,7 +44,15 @@ public class SporkPlayer {
 		for (PotionEffect effect : player.getActivePotionEffects())
 			player.removePotionEffect(effect.getType());
 	}
-
+	
+	public void update() {
+		
+	}
+	
+	public boolean canInteract() {
+		return getTeam().isParticipating();
+	}
+	
 	public void sendMessage(String message) {
 		getPlayer().sendMessage(message);
 	}
@@ -77,6 +87,10 @@ public class SporkPlayer {
 		return getPlayer().getName();
 	}
 
+	public void remove() {
+		players.remove(this);
+	}
+	
 	public static List<SporkPlayer> getPlayers() {
 		return players;
 	}

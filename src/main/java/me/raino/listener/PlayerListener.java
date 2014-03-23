@@ -7,9 +7,11 @@ import me.raino.module.modules.SpawnModule;
 import me.raino.spawn.SporkSpawn;
 import me.raino.util.Config;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -33,21 +35,34 @@ public class PlayerListener implements Listener {
 		for (String s : Config.MOTD.MOTD)
 			player.sendMessage(s);
 
-		event.setJoinMessage(spork.getColoredName() + ChatColor.YELLOW + " joined the game.");
+		event.setJoinMessage(null);
+		Bukkit.broadcastMessage(spork.getColoredName() + ChatColor.YELLOW + " joined the game.");
 	}
 
 	@EventHandler
 	public void event(PlayerKickEvent event) {
 		handleQuit(event.getPlayer());
+		event.setLeaveMessage(null);
 	}
 
 	@EventHandler
 	public void event(PlayerQuitEvent event) {
 		handleQuit(event.getPlayer());
+		event.setQuitMessage(null);
+	}
+	
+	@EventHandler
+	public void event(AsyncPlayerChatEvent event) {
+		SporkPlayer player = SporkPlayer.getPlayer(event.getPlayer());
+		
+		player.getTeam().broadcast(player.getTeam().getColor() + "[Team] " + player.getName() + ChatColor.WHITE + ": "+ event.getMessage());
+		
+		event.setCancelled(true);
 	}
 
 	private void handleQuit(Player player) {
-
+		SporkPlayer spork = SporkPlayer.getPlayer(player);
+		Bukkit.broadcastMessage(spork.getColoredName() + ChatColor.YELLOW + " left the game.");
 	}
 
 }

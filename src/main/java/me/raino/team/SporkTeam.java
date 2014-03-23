@@ -1,8 +1,13 @@
 package me.raino.team;
 
+import java.util.List;
+
+import me.raino.base.SporkPlayer;
 import me.raino.match.Match;
 
 import org.bukkit.ChatColor;
+
+import com.google.common.collect.Lists;
 
 public class SporkTeam {
 
@@ -48,10 +53,30 @@ public class SporkTeam {
 	public Match getMatch() {
 		return match;
 	}
-	
+
+	public boolean isParticipating() {
+		return getType() == TeamType.PARTICIPATING && getMatch().isRunning();
+	}
+
+	public boolean isObserving() {
+		return getType() == TeamType.OBSERVING || !getMatch().isRunning();
+	}
+
 	public SporkTeam update(Match match) {
 		this.match = match;
 		return this;
+	}
+
+	public void broadcast(String message) {
+		for(SporkPlayer sp : getPlayers()) sp.sendMessage(message);
+	}
+	
+	public List<SporkPlayer> getPlayers() {
+		List<SporkPlayer> players = Lists.newArrayList();
+		for (SporkPlayer sp : SporkPlayer.getPlayers())
+			if (sp.getTeam() == this)
+				players.add(sp);
+		return players;
 	}
 
 	public String toString() {

@@ -1,6 +1,7 @@
 package me.raino.listener;
 
 import me.raino.base.SporkPlayer;
+import me.raino.event.BlockTransformEvent;
 import me.raino.event.MatchCycleEvent;
 import me.raino.match.Match;
 import me.raino.module.modules.SpawnModule;
@@ -20,4 +21,12 @@ public class SporkListener implements Listener {
 			p.getPlayer().teleport(spawn.getSpawn(match));
 		}
 	}
+	
+	@EventHandler
+	public void event(BlockTransformEvent event) {
+		if(!event.hasPlayer()) return;
+		SporkPlayer player = SporkPlayer.getPlayer(event.getPlayer());
+		event.setCancelled(!player.canInteract());
+	}
+	
 }
