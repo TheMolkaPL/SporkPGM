@@ -6,10 +6,12 @@ import me.raino.module.Module;
 import me.raino.module.ModuleContainer;
 import me.raino.module.ModuleInfo;
 import me.raino.module.exceptions.ModuleLoadException;
+import me.raino.module.listener.SpawnModuleListener;
 import me.raino.region.Region;
 import me.raino.region.RegionParser;
 import me.raino.spawn.SporkSpawn;
 import me.raino.team.SporkTeam;
+import me.raino.util.EventUtils;
 import me.raino.util.XMLUtils;
 
 import org.dom4j.Document;
@@ -20,6 +22,8 @@ import com.google.common.collect.Lists;
 @ModuleInfo(module = SpawnModule.class, name = "SpawnModule", requires = { TeamModule.class, RegionModule.class })
 public class SpawnModule extends Module {
 
+	private SpawnModuleListener listener;
+
 	private SporkSpawn defaultSpawn;
 	private List<SporkSpawn> spawns;
 
@@ -28,9 +32,13 @@ public class SpawnModule extends Module {
 		this.spawns = spawns;
 	}
 
-	public void enable() {}
+	public void enable() {
+		EventUtils.registerListener(listener = new SpawnModuleListener(this));
+	}
 
-	public void disable() {}
+	public void disable() {
+		EventUtils.unregisterListener(listener);
+	}
 
 	public static Module parse(ModuleContainer moduleContainer, Document doc) throws Exception {
 		Element root = doc.getRootElement();
@@ -59,7 +67,7 @@ public class SpawnModule extends Module {
 		}
 		return new SpawnModule(defaultSpawn, spawns);
 	}
-	
+
 	public SporkSpawn getDefaultSpawn() {
 		return defaultSpawn;
 	}

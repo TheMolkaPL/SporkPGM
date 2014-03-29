@@ -1,5 +1,7 @@
 package me.raino.event;
 
+import me.raino.base.SporkPlayer;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -61,6 +63,10 @@ public class SporkEvent extends Event implements Cancellable {
 
 	public Player getPlayer() {
 		return player;
+	}
+	
+	public SporkPlayer getSporkPlayer() {
+		return SporkPlayer.getPlayer(getPlayer());
 	}
 
 	public boolean hasPlayer() {

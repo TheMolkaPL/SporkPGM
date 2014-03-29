@@ -68,9 +68,18 @@ public class SporkTeam {
 	}
 
 	public void broadcast(String message) {
-		for(SporkPlayer sp : getPlayers()) sp.sendMessage(message);
+		for (SporkPlayer sp : getPlayers())
+			sp.sendMessage(message);
 	}
-	
+
+	public boolean isFull() {
+		return getSize() >= getMax();
+	}
+
+	public int getSize() {
+		return getPlayers().size();
+	}
+
 	public List<SporkPlayer> getPlayers() {
 		List<SporkPlayer> players = Lists.newArrayList();
 		for (SporkPlayer sp : SporkPlayer.getPlayers())

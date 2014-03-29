@@ -16,7 +16,6 @@ import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockFadeEvent;
 import org.bukkit.event.block.BlockFormEvent;
 import org.bukkit.event.block.BlockFromToEvent;
-import org.bukkit.event.block.BlockPistonEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -67,18 +66,19 @@ public class BlockListener implements Listener {
 		BlockTransformEvent bte = new BlockTransformEvent(event, event.getBlock().getState(), BlockUtils.air(event.getBlock().getState()));
 		EventUtils.callEvent(bte);
 	}
-	
+
 	@EventHandler
 	public void event(BlockPistonExtendEvent event) {
-		for(Block b : event.getBlocks()) {
+		for (Block b : event.getBlocks()) {
 			BlockTransformEvent bte = new BlockTransformEvent(event, b.getState(), b.getRelative(event.getDirection()).getState());
 			EventUtils.callEvent(bte);
 		}
 	}
-	
+
 	@EventHandler
 	public void event(BlockPistonRetractEvent event) {
-		if(!event.isSticky()) return;
+		if (!event.isSticky())
+			return;
 		BlockState state = event.getBlock().getWorld().getBlockAt(event.getRetractLocation()).getState();
 		BlockTransformEvent bte = new BlockTransformEvent(event, state, BlockUtils.air(state));
 		EventUtils.callEvent(bte);

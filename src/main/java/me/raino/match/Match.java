@@ -3,15 +3,20 @@ package me.raino.match;
 import java.util.List;
 
 import me.raino.base.SporkPlayer;
+import me.raino.event.MatchEndEvent;
+import me.raino.event.MatchStartEvent;
 import me.raino.map.SporkMap;
 import me.raino.module.ModuleContainer;
 import me.raino.module.modules.TeamModule;
 import me.raino.team.SporkTeam;
+import me.raino.team.SporkTeam.TeamType;
 import me.raino.util.Config;
+import me.raino.util.EventUtils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
+import org.bukkit.scoreboard.Scoreboard;
 import org.joda.time.Duration;
 import org.joda.time.Instant;
 
@@ -21,6 +26,8 @@ public class Match {
 
 	private SporkMap map;
 	private World world;
+
+	private Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
 
 	private ModuleContainer moduleContainer;
 
@@ -36,9 +43,12 @@ public class Match {
 		this.map = map;
 		this.world = world;
 
+		setState(MatchState.WAITING);
+		
 		this.moduleContainer = getMap().getModuleContainer();
 
-		this.teams = ((TeamModule) getMap().getModule(TeamModule.class)).getAllTeams();
+		for (SporkTeam sp : ((TeamModule) getMap().getModule(TeamModule.class)).getAllTeams())
+			this.teams.add(sp.update(this));
 		this.defaultTeam = getTeam(Config.Team.DEFAULT_NAME);
 	}
 
@@ -57,21 +67,27 @@ public class Match {
 	public void start() {
 		if (!setState(MatchState.RUNNING))
 			return;
+		EventUtils.callEvent(new MatchStartEvent(this));
+
 		moduleContainer.enableModules();
 
-		Bukkit.broadcastMessage(ChatColor.DARK_PURPLE + "# # # # # # # # # # # # # # # # ");
-		Bukkit.broadcastMessage(ChatColor.DARK_PURPLE + "# # " + ChatColor.GOLD + "The match has started!" + ChatColor.DARK_PURPLE + " # #");
-		Bukkit.broadcastMessage(ChatColor.DARK_PURPLE + "# # # # # # # # # # # # # # # #");
+		broadcast(ChatColor.DARK_PURPLE + "# # # # # # # # # # # # # # # # ");
+		broadcast(ChatColor.DARK_PURPLE + "# # " + ChatColor.GOLD + "The match has started!" + ChatColor.DARK_PURPLE + " # #");
+		broadcast(ChatColor.DARK_PURPLE + "# # # # # # # # # # # # # # # #");
 	}
 
 	public void end(SporkTeam winner) {
 		if (!setState(MatchState.ENDED))
 			return;
-		Bukkit.broadcastMessage(ChatColor.DARK_PURPLE + "# # # # # # # # # # # #");
-		Bukkit.broadcastMessage(ChatColor.DARK_PURPLE + "# # " + ChatColor.GOLD + "   Game Over!   " + ChatColor.DARK_PURPLE + " # #");
+		EventUtils.callEvent(new MatchEndEvent(this));
+
+		moduleContainer.disableModules();
+
+		broadcast(ChatColor.DARK_PURPLE + "# # # # # # # # # # # #");
+		broadcast(ChatColor.DARK_PURPLE + "# # " + ChatColor.GOLD + "   Game Over!   " + ChatColor.DARK_PURPLE + " # #");
 		if (winner != null)
-			Bukkit.broadcastMessage(ChatColor.DARK_PURPLE + "# # " + winner.getColoredName() + " wins!" + ChatColor.DARK_PURPLE + " # #");
-		Bukkit.broadcastMessage(ChatColor.DARK_PURPLE + "# # # # # # # # # # # #");
+			broadcast(ChatColor.DARK_PURPLE + "# # " + winner.getColoredName() + " wins!" + ChatColor.DARK_PURPLE + " # #");
+		broadcast(ChatColor.DARK_PURPLE + "# # # # # # # # # # # #");
 	}
 
 	public Duration getLenght() {
@@ -83,12 +99,16 @@ public class Match {
 		return new Duration(started, ended);
 	}
 
+	public MatchState getState() {
+		return state;
+	}
+
 	public boolean isRunning() {
-		return state == MatchState.RUNNING;
+		return getState() == MatchState.RUNNING;
 	}
 
 	public boolean isFinished() {
-		return state == MatchState.ENDED || state == MatchState.CYCLING;
+		return getState() == MatchState.ENDED || getState() == MatchState.CYCLING;
 	}
 
 	public void join(SporkPlayer player) {
@@ -100,6 +120,15 @@ public class Match {
 
 	}
 
+	public void broadcast(String message) {
+		for (SporkPlayer sp : getPlayers())
+			sp.sendMessage(message);
+	}
+
+	public Scoreboard getScoreboard() {
+		return scoreboard;
+	}
+
 	public SporkTeam getTeam(String search) {
 		for (SporkTeam st : getTeams())
 			if (st.getName().equalsIgnoreCase(search))
@@ -109,6 +138,14 @@ public class Match {
 
 	public SporkTeam getDefaultTeam() {
 		return defaultTeam;
+	}
+
+	public List<SporkTeam> getParticipatingTeams() {
+		List<SporkTeam> teams = Lists.newArrayList();
+		for (SporkTeam st : getTeams())
+			if (st.getType() == TeamType.PARTICIPATING)
+				teams.add(st);
+		return teams;
 	}
 
 	public List<SporkTeam> getTeams() {

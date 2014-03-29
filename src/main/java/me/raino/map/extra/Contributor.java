@@ -17,5 +17,9 @@ public class Contributor {
 	public String getContribution() {
 		return contribution;
 	}
+	
+	public String toString() {
+		return getName();
+	}
 
 }

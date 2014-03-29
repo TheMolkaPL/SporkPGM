@@ -5,8 +5,7 @@ public enum MatchState {
 	CYCLING(null),
 	ENDED(CYCLING),
 	RUNNING(ENDED),
-	STARTING(RUNNING),
-	WAITING(STARTING);
+	WAITING(RUNNING);
 	
 	private MatchState next;
 	

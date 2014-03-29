@@ -5,6 +5,7 @@ import java.util.List;
 import me.raino.match.Match;
 import me.raino.team.SporkTeam;
 
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 
@@ -21,7 +22,7 @@ public class SporkPlayer {
 
 	public SporkPlayer(Player player) {
 		this.player = player;
-		
+
 		players.add(this);
 	}
 
@@ -44,15 +45,22 @@ public class SporkPlayer {
 		for (PotionEffect effect : player.getActivePotionEffects())
 			player.removePotionEffect(effect.getType());
 	}
-	
+
 	public void update() {
-		
+		String name = getColoredName();
+		if (name.length() > 16)
+			name = name.substring(0, 15);
+		getPlayer().setPlayerListName(name);
+		getPlayer().setOverheadName(getColoredName());
+		getPlayer().setAffectsSpawning(false);
+		getPlayer().setGameMode(canInteract() ? GameMode.SURVIVAL : GameMode.CREATIVE);
+		vanish();
 	}
-	
+
 	public boolean canInteract() {
 		return getTeam().isParticipating();
 	}
-	
+
 	public void sendMessage(String message) {
 		getPlayer().sendMessage(message);
 	}
@@ -64,11 +72,20 @@ public class SporkPlayer {
 	public void setTeam(SporkTeam team) {
 		this.team = team;
 		this.match = team.getMatch();
+		update();
+	}
 
-		String name = getColoredName();
-		if (name.length() > 16)
-			name = name.substring(0, 15);
-		getPlayer().setPlayerListName(name);
+	public boolean shouldHide(SporkPlayer player) {
+		return canInteract() && !player.canInteract();
+	}
+
+	public void vanish() {
+		for (SporkPlayer sp : getMatch().getPlayers()) {
+			if(shouldHide(sp)) getPlayer().hidePlayer(sp.getPlayer());
+			else getPlayer().showPlayer(sp.getPlayer());
+			if(sp.shouldHide(this)) sp.getPlayer().hidePlayer(getPlayer());
+			else sp.getPlayer().showPlayer(getPlayer());
+		}
 	}
 
 	public Match getMatch() {
@@ -90,7 +107,7 @@ public class SporkPlayer {
 	public void remove() {
 		players.remove(this);
 	}
-	
+
 	public static List<SporkPlayer> getPlayers() {
 		return players;
 	}

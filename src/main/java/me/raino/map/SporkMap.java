@@ -8,9 +8,12 @@ import me.raino.module.modules.InfoModule;
 import me.raino.util.Config;
 import me.raino.util.Log;
 
+import org.bukkit.ChatColor;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.io.SAXReader;
+
+import tc.oc.commons.core.util.StringUtils;
 
 public class SporkMap {
 
@@ -45,6 +48,10 @@ public class SporkMap {
 
 	public String getName() {
 		return getInfo().getName();
+	}
+	
+	public String getDescription() {
+		return ChatColor.GOLD + getName() + ChatColor.DARK_PURPLE + " by " + StringUtils.listToEnglishCompound(getInfo().getAuthors(), ChatColor.RED.toString(), ChatColor.DARK_PURPLE.toString());
 	}
 
 	public File getFolder() {

@@ -166,4 +166,16 @@ public class XMLUtils {
 		}
 	}
 
+	public static Short parseShort(String text) {
+		return parseShort(text, (short) 0);
+	}
+
+	public static Short parseShort(String text, short i) {
+		try {
+			return Short.parseShort(text);
+		} catch (Exception e) {
+			return i;
+		}
+	}
+
 }

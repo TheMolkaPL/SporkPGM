@@ -41,7 +41,7 @@ public class MatchManager {
 	}
 
 	public SporkMap getCurrentMap() {
-		return rotation.get(index);
+		return getCurrentMatch().getMap();
 	}
 
 	public SporkMap getNextMap() {

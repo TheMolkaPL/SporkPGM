@@ -15,7 +15,7 @@ public abstract class PaginatedResult<T> {
 	private String header;
 
 	public PaginatedResult(String header) {
-		this(header, 6);
+		this(header, 8);
 	}
 
 	public PaginatedResult(String header, int resultsPerPage) {
