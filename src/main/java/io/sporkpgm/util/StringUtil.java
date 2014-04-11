@@ -157,6 +157,28 @@ public class StringUtil {
 		return null;
 	}
 
+    public static String staffList(List<String> values, ChatColor suffix) {
+        String text = "";
+        if(values.size() == 1)
+            text += values.get(0);
+        else if(values.size() >= 2) {
+            int index = 0;
+            while(index < values.size()) {
+                if(index > 0) {
+                    text += suffix;
+                    if(index == (values.size() -1))
+                        text += ", ";
+                    else text += ", ";
+                }
+
+                text += ChatColor.RED + values.get(index);
+                index++;
+            }
+        }
+
+        return text + suffix;
+    }
+
 	public static Material convertStringToMaterial(String string) {
 		if(string == null)
 			return null;
