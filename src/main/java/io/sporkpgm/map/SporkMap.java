@@ -119,7 +119,7 @@ public class SporkMap {
 
 		this.modules = Spork.get().getModules(document);
 		loadModules();
-		Log.info("Loaded " + modules.size() + " Modules: " + modules);
+		// Log.info("Loaded " + modules.size() + " Modules: " + modules);
 
 		this.kits = SporkKitBuilder.build(document);
 		if(kits == null) {
@@ -132,17 +132,17 @@ public class SporkMap {
 
 			List<ObjectiveModule> objectives = new ArrayList<>();
 			for(Module module : modules) {
-				Log.info("Checking " + module.getClass().getSimpleName() + " to see if it is an instance of ObjectiveModule");
+				// Log.info("Checking " + module.getClass().getSimpleName() + " to see if it is an instance of ObjectiveModule");
 				if(module instanceof ObjectiveModule) {
 					ObjectiveModule objective = (ObjectiveModule) module;
-					Log.info("'" + objective.getName() + "' has been found (" + objective.getTeam().getName().toUpperCase() + ")");
+					// Log.info("'" + objective.getName() + "' has been found (" + objective.getTeam().getName().toUpperCase() + ")");
 					if(objective.getTeam().equals(team)) {
-						Log.info("Found '" + objective.getName() + "' for " + objective.getTeam().getName().toUpperCase());
+						// Log.info("Found '" + objective.getName() + "' for " + objective.getTeam().getName().toUpperCase());
 						objectives.add(objective);
 					}
 				}
 			}
-			Log.info(team.getName() + ": " + objectives + " (" + objectives.size() + ")");
+			// Log.info(team.getName() + ": " + objectives + " (" + objectives.size() + ")");
 		}
 	}
 
@@ -392,7 +392,7 @@ public class SporkMap {
 			modules.remove(toRemove);
 		}
 
-		Log.info("Loaded " + modules.size() + " Modules");
+		// Log.info("Loaded " + modules.size() + " Modules");
 	}
 
 	public Document getDocument() {

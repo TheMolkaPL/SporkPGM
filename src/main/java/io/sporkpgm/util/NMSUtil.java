@@ -28,7 +28,7 @@ public class NMSUtil {
 	}
 
 	public static Class<?> getClass(String pack) {
-		Log.info("Package: " + pack);
+		// Log.info("Package: " + pack);
 		try {
 			return Class.forName(pack);
 		} catch(ClassNotFoundException ex) { /* nothing */ }

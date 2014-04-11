@@ -228,7 +228,7 @@ public class Rotation {
 		id++;
 		int current = this.current + 1;
 		List<RotationSlot> list = getCurrentList().subList(0, current);
-		Log.info("list[" + 0 + ", " + (current) + "] = {" + list.size() + ": " + list + "}");
+		// Log.info("list[" + 0 + ", " + (current) + "] = {" + list.size() + ": " + list + "}");
 
 		list.add(new RotationSlot(map, id));
 		try {
@@ -236,7 +236,7 @@ public class Rotation {
 				list.addAll(getCurrentList().subList(current + 1, getCurrentList().size() - 1));
 			}
 		} catch(Exception e) { /* nothing */ }
-		Log.info("list = {" + list.size() + ": " + list + "}");
+		// Log.info("list = {" + list.size() + ": " + list + "}");
 	}
 
 	@Override

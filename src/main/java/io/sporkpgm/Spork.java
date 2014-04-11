@@ -283,7 +283,7 @@ public class Spork extends JavaPlugin {
 					constructor.setAccessible(true);
 					Builder builder = (Builder) constructor.newInstance(document);
 					modules.addAll(builder.build());
-					getLogger().info(clazz.getSimpleName() + " module loaded!");
+					// getLogger().info(clazz.getSimpleName() + " module loaded!");
 				} catch(Exception e) {
 					getLogger().warning("Error when loading '" + clazz.getSimpleName() + "' due to " + e.getClass().getSimpleName());
 					e.printStackTrace();

@@ -42,7 +42,7 @@ public class MapBuilder {
 		}
 
 		this.modules = Spork.get().getModules(document);
-		Log.info("Loaded " + modules.size() + " Modules: " + modules);
+		// Log.info("Loaded " + modules.size() + " Modules: " + modules);
 
 		this.kits = SporkKitBuilder.build(document);
 		if(kits == null) {
