@@ -24,6 +24,7 @@ public class ComplementRegion extends Region {
 		super(name);
 		this.base = base;
 		this.complements = complements;
+		this.blocks = new ArrayList<>();
 	}
 
 	@Override
@@ -44,7 +45,17 @@ public class ComplementRegion extends Region {
 
 	@Override
 	public boolean isInside(BlockRegion block) {
-		return blocks.contains(block);
+		int count = 0;
+		for(Region region : complements) {
+			if(region.isInside(block)) {
+				count++;
+				if(count > 1) {
+					return false;
+				}
+			}
+		}
+
+		return count == 1;
 	}
 
 	@Override
