@@ -1,7 +1,6 @@
 package io.sporkpgm;
 
 import com.google.common.collect.Lists;
-import com.oman.trackerdeaths.DeathListener;
 import com.sk89q.bukkit.util.CommandsManagerRegistration;
 import com.sk89q.minecraft.util.commands.CommandException;
 import com.sk89q.minecraft.util.commands.CommandPermissionsException;
@@ -374,9 +373,11 @@ public class Spork extends JavaPlugin {
 		registerListener(new PlayerListener());
 		registerListener(new FilterTriggerListener());
 
+		/*
 		if(hasPlugin("Tracker")) {
 			registerListener(new DeathListener());
 		}
+		*/
 	}
 
 	public static void registerListeners(Listener... listeners) {
