@@ -562,7 +562,7 @@ public class SporkPlayer implements Listener {
 
 		boolean team = event.isTeam() && getTeam() != null;
 		String pre = (team ? getTeamColour() + "[Team] " : "");
-		String full = pre + getTeamColour() + getPrefix() + getNickname() + ChatColor.WHITE + ": " + event.getMessage();
+		String full = pre + getTeamColour() + getPrefix() + getTeamColour() + getNickname() + ChatColor.WHITE + ": " + event.getMessage();
 		if(team) {
 			for(SporkPlayer player : getTeam().getPlayers()) {
 				player.getPlayer().sendMessage(full);
