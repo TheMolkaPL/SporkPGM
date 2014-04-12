@@ -79,7 +79,7 @@ public class MonumentBuilder extends Builder {
 
 		int i = 0;
 		Material[] materials = new Material[materialList.size()];
-		for(Material material : materials) {
+		for(Material material : materialList) {
 			materials[i] = material;
 			i++;
 		}

@@ -36,6 +36,7 @@ public class MonumentObjective extends ObjectiveModule implements InitModule {
 
 	public MonumentObjective(String name, Material[] materials, Region region, SporkTeam team, int completion) {
 		super(name, team);
+		this.color = team.getColor();
 		this.materials = materials;
 		this.region = region;
 		this.completion = completion;
@@ -72,7 +73,7 @@ public class MonumentObjective extends ObjectiveModule implements InitModule {
 	public MonumentBlock getBlock(BlockRegion region) {
 		if(blocks == null) return null;
 		for(MonumentBlock block : blocks) {
-			if(block.getBlock().isInside(region, true)) {
+			if(block.getBlock().isInside(region, false)) {
 				return block;
 			}
 		}
@@ -127,6 +128,12 @@ public class MonumentObjective extends ObjectiveModule implements InitModule {
 			return;
 		}
 
+		/*
+		for(MonumentBlock block : blocks) {
+			Log.info("Monument handling Block change, @" + event.getRegion() + " compared to " + block.getBlock());
+		}
+		*/
+
 		if(broken == null) {
 			return;
 		}
@@ -147,7 +154,7 @@ public class MonumentObjective extends ObjectiveModule implements InitModule {
 		}
 
 		broken.setComplete(event.getPlayer(), true);
-		boolean complete = getCompletionPercentage() >= completion;
+		setComplete(getCompletionPercentage() >= completion);
 	}
 
 	@Override
@@ -167,6 +174,22 @@ public class MonumentObjective extends ObjectiveModule implements InitModule {
 
 	@Override
 	public void start() {
+		/*
+		Thread.dumpStack();
+
+		Log.info("Adding blocks");
+		StringBuilder builder = new StringBuilder();
+		for(int i = 0; i < materials.length; i++) {
+			if(i != 0) {
+				builder.append(", ");
+			}
+
+			builder.append(materials[i].name());
+		}
+		Log.info(builder.toString());
+		*/
+
+		blocks = new ArrayList<>();
 		for(BlockRegion block : region.getValues(materials, team.getMap().getWorld())) {
 			Log.info(block.toString());
 			Log.info(String.valueOf(blocks.size()));
@@ -175,8 +198,7 @@ public class MonumentObjective extends ObjectiveModule implements InitModule {
 	}
 
 	@Override
-	public void stop() {
-	}
+	public void stop() { /* nothing */ }
 
 	public Map<String, List<MonumentBlock>> getOrderedPlayerBlocks() {
 		Map<String, List<MonumentBlock>> map = new HashMap<>();

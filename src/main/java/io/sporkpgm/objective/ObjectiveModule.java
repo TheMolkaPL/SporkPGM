@@ -18,6 +18,7 @@ public abstract class ObjectiveModule extends Module {
 	public ObjectiveModule(String name, SporkTeam team) {
 		this.name = name;
 		this.team = team;
+		update();
 	}
 
 	public String getName() {

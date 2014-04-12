@@ -23,7 +23,7 @@ public class MaxHeightModule extends Module {
 			return;
 		}
 
-		Log.info("Checking Y > Max Y (" + event.getLocation().getBlockY() + " > " + height + ") = " + (event.getLocation().getBlockY() > height));
+		// Log.info("Checking Y > Max Y (" + event.getLocation().getBlockY() + " > " + height + ") = " + (event.getLocation().getBlockY() > height));
 		if(event.getLocation().getBlockY() > height) {
 			event.setCancelled(true);
 			event.getPlayer().getPlayer().sendMessage(YELLOW + " [!]" + GRAY + " You may not edit above the height limit (" + RED + height + " Blocks" + GRAY + ")");
