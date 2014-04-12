@@ -362,15 +362,6 @@ public class SporkPlayer implements Listener {
 		}
 
 		try {
-			// getPlayer().setInstantRespawn(update);
-			Method forced = Player.class.getMethod("setInstantRespawn", boolean.class);
-			forced.setAccessible(true);
-			forced.invoke(getPlayer(), update);
-		} catch(Exception e) {
-			Log.warning("Not running AthenaBukkit, skipping instant respawn...");
-		}
-
-		try {
 			// getPlayer().setAffectsSpawning(update);
 			Method spawning = Player.class.getMethod("setAffectsSpawning", boolean.class);
 			spawning.setAccessible(true);
