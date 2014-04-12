@@ -69,7 +69,7 @@ public class CoreBuilder extends Builder {
 		}
 
 		SporkTeam other = null;
-		String team = XMLUtil.getElementOrParentValue(element, "owner");
+		String team = XMLUtil.getElementOrParentValue(element, "team");
 		if(team != null) {
 			other = map.getTeam(team);
 		}
