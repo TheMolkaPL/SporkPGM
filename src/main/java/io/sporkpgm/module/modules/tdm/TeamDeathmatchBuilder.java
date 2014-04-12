@@ -1,15 +1,12 @@
 package io.sporkpgm.module.modules.tdm;
 
-import io.sporkpgm.map.SporkMap;
 import io.sporkpgm.module.Module;
 import io.sporkpgm.module.builder.Builder;
 import io.sporkpgm.module.builder.BuilderInfo;
 import io.sporkpgm.module.exceptions.ModuleLoadException;
-import io.sporkpgm.module.modules.friendlyfire.FriendlyFireModule;
 import io.sporkpgm.objective.scored.ScoredObjective;
 import io.sporkpgm.region.exception.InvalidRegionException;
 import io.sporkpgm.team.SporkTeam;
-import io.sporkpgm.util.StringUtil;
 import org.dom4j.Document;
 import org.dom4j.Element;
 

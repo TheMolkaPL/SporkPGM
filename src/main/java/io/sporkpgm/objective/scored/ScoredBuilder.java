@@ -3,6 +3,7 @@ package io.sporkpgm.objective.scored;
 import io.sporkpgm.map.SporkMap;
 import io.sporkpgm.module.Module;
 import io.sporkpgm.module.builder.Builder;
+import io.sporkpgm.module.builder.BuilderInfo;
 import io.sporkpgm.module.exceptions.ModuleLoadException;
 import io.sporkpgm.team.SporkTeam;
 import io.sporkpgm.util.StringUtil;
@@ -12,11 +13,8 @@ import org.dom4j.Element;
 import java.util.ArrayList;
 import java.util.List;
 
+@BuilderInfo(documentable = false)
 public class ScoredBuilder extends Builder {
-
-	public ScoredBuilder(Document document) {
-		super(document);
-	}
 
 	public ScoredBuilder(SporkMap map) {
 		super(map);
