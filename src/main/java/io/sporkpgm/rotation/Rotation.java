@@ -19,8 +19,10 @@ import io.sporkpgm.util.Log;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
@@ -100,13 +102,14 @@ public class Rotation {
 	}
 
 	private static void create(File rotation) throws IOException {
-		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(rotation), "UTF8"));
+		FileWriter write = new FileWriter(rotation, false);
+		PrintWriter printer = new PrintWriter(write);
 		for(MapBuilder loader : Spork.getMaps()) {
 			Log.info("Printing out " + loader.getName() + " into the Rotation file");
-			out.write(loader.getName());
+			printer.printf("%s" + "%n", loader.getName());
 		}
 
-		out.close();
+		printer.close();
 	}
 
 	public void start() throws MapLoadException, ModuleLoadException, RotationLoadException, InvalidRegionException, InvalidFilterException {
