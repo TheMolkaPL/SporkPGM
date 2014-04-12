@@ -5,6 +5,7 @@ import io.sporkpgm.Spork;
 import io.sporkpgm.filter.exceptions.InvalidFilterException;
 import io.sporkpgm.map.MapBuilder;
 import io.sporkpgm.map.SporkMap;
+import io.sporkpgm.map.exception.MapLoadException;
 import io.sporkpgm.match.Match;
 import io.sporkpgm.match.MatchPhase;
 import io.sporkpgm.module.exceptions.ModuleLoadException;
@@ -108,7 +109,7 @@ public class Rotation {
 		out.close();
 	}
 
-	public void start() throws ModuleLoadException, RotationLoadException, InvalidRegionException, InvalidFilterException {
+	public void start() throws MapLoadException, ModuleLoadException, RotationLoadException, InvalidRegionException, InvalidFilterException {
 		Match match = getCurrentSlot().load();
 		this.started = true;
 		match.start();

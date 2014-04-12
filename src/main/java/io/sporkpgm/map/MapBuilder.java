@@ -2,6 +2,7 @@ package io.sporkpgm.map;
 
 import io.sporkpgm.Spork;
 import io.sporkpgm.filter.exceptions.InvalidFilterException;
+import io.sporkpgm.map.exception.MapLoadException;
 import io.sporkpgm.module.Module;
 import io.sporkpgm.module.exceptions.ModuleLoadException;
 import io.sporkpgm.module.modules.info.Contributor;
@@ -109,7 +110,7 @@ public class MapBuilder {
 		return kits;
 	}
 
-	public SporkMap getMap() throws ModuleLoadException, InvalidRegionException, InvalidFilterException {
+	public SporkMap getMap() throws MapLoadException, ModuleLoadException, InvalidRegionException, InvalidFilterException {
 		return new SporkMap(this);
 	}
 

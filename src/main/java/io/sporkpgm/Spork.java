@@ -19,6 +19,7 @@ import io.sporkpgm.listeners.PlayerListener;
 import io.sporkpgm.map.MapBuilder;
 import io.sporkpgm.map.MapLoader;
 import io.sporkpgm.map.SporkMap;
+import io.sporkpgm.map.exception.MapLoadException;
 import io.sporkpgm.match.Match;
 import io.sporkpgm.module.Module;
 import io.sporkpgm.module.builder.Builder;
@@ -151,6 +152,9 @@ public class Spork extends JavaPlugin {
 			Log.severe(e.getMessage());
 			reason = e.getMessage();
 		} catch(InvalidFilterException e) {
+			Log.severe(e.getMessage());
+			reason = e.getMessage();
+		} catch(MapLoadException e) {
 			Log.severe(e.getMessage());
 			reason = e.getMessage();
 		}

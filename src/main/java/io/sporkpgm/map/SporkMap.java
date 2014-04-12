@@ -6,6 +6,7 @@ import io.sporkpgm.filter.Filter;
 import io.sporkpgm.filter.FilterBuilder;
 import io.sporkpgm.filter.exceptions.InvalidFilterException;
 import io.sporkpgm.map.debug.VisibleRegion;
+import io.sporkpgm.map.exception.MapLoadException;
 import io.sporkpgm.map.generator.NullChunkGenerator;
 import io.sporkpgm.match.Match;
 import io.sporkpgm.module.Module;
@@ -85,7 +86,7 @@ public class SporkMap {
 	protected SporkTeam winner;
 	protected boolean ended;
 
-	public SporkMap(MapBuilder builder) throws ModuleLoadException, InvalidRegionException, InvalidFilterException {
+	public SporkMap(MapBuilder builder) throws MapLoadException, ModuleLoadException, InvalidRegionException, InvalidFilterException {
 		this.builder = builder;
 		this.document = builder.getDocument();
 		this.folder = builder.getFolder();
@@ -114,6 +115,11 @@ public class SporkMap {
 
 		this.kits = builder.getKits();
 		this.spawns = SporkSpawnBuilder.build(this);
+		for(SporkTeam team : teams) {
+			if(team.getSpawns().size() == 0) {
+				throw new MapLoadException("No Spawns specified for " + team.getName());
+			}
+		}
 
 		this.timer = (TimerModule) new TimerBuilder(this).build().get(0);
 
