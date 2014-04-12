@@ -7,14 +7,20 @@ import io.sporkpgm.module.builder.Builder;
 import io.sporkpgm.module.extras.InitModule;
 import io.sporkpgm.objective.ObjectiveModule;
 import io.sporkpgm.region.Region;
+import io.sporkpgm.region.types.BlockRegion;
+import io.sporkpgm.region.types.groups.UnionRegion;
 import io.sporkpgm.team.SporkTeam;
+import io.sporkpgm.util.Log;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.BlockFromToEvent;
+import org.bukkit.event.block.BlockSpreadEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.bukkit.Material.*;
@@ -22,6 +28,8 @@ import static org.bukkit.Material.*;
 @ModuleInfo(name = "CoreObjective", description = "Objective where liquid flowing from a region is tracked until a specified distance")
 public class CoreObjective extends ObjectiveModule implements InitModule {
 
+	UnionRegion core;
+	UnionRegion casing;
 	Liquid liquid;
 	Material material;
 	ChatColor color;
@@ -65,17 +73,36 @@ public class CoreObjective extends ObjectiveModule implements InitModule {
 
 	public void start() {
 		this.liquid = Liquid.getLiquid(region, team.getMap().getWorld());
+
+		List<Region> regions = new ArrayList<>();
+		regions.addAll(region.getValues(liquid.getMaterials(), team.getMap().getWorld()));
+		this.core = new UnionRegion(name, regions);
+
+		regions = new ArrayList<>();
+		regions.addAll(region.getValues(material, team.getMap().getWorld()));
+		this.casing = new UnionRegion(name, regions);
 	}
 
 	public void stop() { /* nothing */ }
 
 	@EventHandler
-	public void onBlockChange(BlockChangeEvent event) {
+	public void onCoreLeak(BlockChangeEvent event) {
 		if(isComplete()) {
 			return;
 		}
 
+		if(event.getEvent() instanceof BlockSpreadEvent) {
+			BlockSpreadEvent spread = (BlockSpreadEvent) event.getEvent();
+			Log.info("Spread " + spread.getNewState().getType().name() + " from " + spread.getBlock().getType().name());
+		}
+
+		if(!Liquid.matches(liquid, event.getNewState().getType())) {
+			return;
+		}
+
 		if(!event.isPlace()) {
+			// Thread.dumpStack();
+			Log.info("Ignoring event because it was not a block being changed from air (" + event.getOldState().getType() + " => " + event.getNewState().getType() + ")");
 			return;
 		}
 
@@ -83,13 +110,38 @@ public class CoreObjective extends ObjectiveModule implements InitModule {
 			return;
 		}
 
-		if(!Liquid.matches(liquid, event.getNewState().getType())) {
+		double distance = region.distance(event.getRegion());
+		Log.info("Checking " + distance + " >= " + leak);
+
+		if(distance >= leak) {
+			setComplete(true);
+		}
+	}
+
+	@EventHandler
+	public void onTeamDamage(BlockChangeEvent event) {
+		if(isComplete()) {
 			return;
 		}
 
-		double distance = region.distance(event.getRegion());
-		if(distance > leak) {
-			setComplete(true);
+		if(event.isPlace()) {
+			if(core.isBelow(event.getRegion())) {
+				event.setCancelled(true);
+				if(event.hasPlayer()) {
+					event.getPlayer().getPlayer().sendMessage(ChatColor.RED + "You can't modify the contents of the core");
+				}
+			}
+			return;
+		}
+
+		if(!event.hasPlayer()) {
+			return;
+		}
+
+		if(event.getPlayer().getTeam() == getTeam() && casing.isInside(event.getRegion())) {
+			event.setCancelled(true);
+			event.getPlayer().getPlayer().sendMessage(ChatColor.RED + "You can't leak your own core");
+			return;
 		}
 	}
 
