@@ -134,7 +134,7 @@ public class SporkMap {
 
 		for(SporkTeam team : teams) {
 			List<ObjectiveModule> fetched = team.getObjectives();
-			Log.info(team.getName() + ": " + fetched + " (" + fetched.size() + ")");
+			// Log.info(team.getName() + ": " + fetched + " (" + fetched.size() + ")");
 
 			List<ObjectiveModule> objectives = new ArrayList<>();
 			for(Module module : modules) {

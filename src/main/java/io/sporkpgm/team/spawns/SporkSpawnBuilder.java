@@ -52,7 +52,7 @@ public class SporkSpawnBuilder {
 	public static SporkSpawn parseSpawn(SporkMap map, Element element) throws ModuleLoadException, InvalidRegionException {
 		String nameS = null;
 
-		Log.info("Parsing " + element.asXML());
+		// Log.info("Parsing " + element.asXML());
 		String teamS = element.getParent().attributeValue("team");
 		String yawS = element.getParent().attributeValue("yaw");
 		String pitchS = element.getParent().attributeValue("pitch");
