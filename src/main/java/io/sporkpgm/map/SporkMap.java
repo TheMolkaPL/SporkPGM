@@ -98,8 +98,6 @@ public class SporkMap {
 		this.teams = SporkTeamBuilder.build(this);
 		this.observers = SporkTeamBuilder.observers(this);
 
-		this.modules = builder.getModules();
-
 		this.filters = FilterBuilder.build(this);
 		// filters();
 
@@ -123,15 +121,15 @@ public class SporkMap {
 
 		this.timer = (TimerModule) new TimerBuilder(this).build().get(0);
 
-		this.modules = Spork.get().getModules(document);
+		this.modules = builder.getModules();
 		loadModules();
-		// Log.info("Loaded " + modules.size() + " Modules: " + modules);
 
 		this.kits = SporkKitBuilder.build(document);
 		if(kits == null) {
 			this.kits = new ArrayList<>();
 		}
 
+		/*
 		for(SporkTeam team : teams) {
 			List<ObjectiveModule> fetched = team.getObjectives();
 			// Log.info(team.getName() + ": " + fetched + " (" + fetched.size() + ")");
@@ -150,6 +148,7 @@ public class SporkMap {
 			}
 			// Log.info(team.getName() + ": " + objectives + " (" + objectives.size() + ")");
 		}
+		*/
 	}
 
 	private void filters() {
@@ -297,7 +296,7 @@ public class SporkMap {
 
 				// Log.info(team.getName() + ": " + team.getObjectives().size() + " Objectives");
 				List<ObjectiveModule> objectives = team.getObjectives();
-				Log.info(team.getName() + ": " + objectives);
+				// Log.info(team.getName() + ": " + objectives);
 				for(ObjectiveModule objective : objectives) {
 					// Log.info("Setting score of " + ChatColor.stripColor(objective.getPlayer().getName()) + " to " + score);
 					// Log.info(ChatColor.stripColor(objective.getPlayer().getName()) + ": " + objective);
@@ -397,8 +396,6 @@ public class SporkMap {
 		for(Module toRemove : remove) {
 			modules.remove(toRemove);
 		}
-
-		// Log.info("Loaded " + modules.size() + " Modules");
 	}
 
 	public Document getDocument() {

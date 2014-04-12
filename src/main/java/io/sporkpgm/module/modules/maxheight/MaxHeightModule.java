@@ -31,7 +31,7 @@ public class MaxHeightModule extends Module {
 	}
 
 	public Class<? extends Builder> builder() {
-		return null;
+		return MaxHeightBuilder.class;
 	}
 
 }
