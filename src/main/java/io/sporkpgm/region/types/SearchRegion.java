@@ -5,6 +5,8 @@ import io.sporkpgm.match.Match;
 import io.sporkpgm.region.Region;
 import io.sporkpgm.region.exception.InvalidRegionException;
 import io.sporkpgm.util.Log;
+import org.bukkit.Material;
+import org.bukkit.World;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +81,45 @@ public class SearchRegion extends Region {
 			return false;
 		} catch(NullPointerException e) {
 			return false;
+		}
+	}
+
+	@Override
+	public double distance(BlockRegion block) {
+		try {
+			get();
+			return region.distance(block);
+		} catch(InvalidRegionException e) {
+			Log.info(e.getMessage());
+			return 0;
+		} catch(NullPointerException e) {
+			return 0;
+		}
+	}
+
+	@Override
+	public double distance(BlockRegion block, Material type, World world) {
+		try {
+			get();
+			return region.distance(block, type, world);
+		} catch(InvalidRegionException e) {
+			Log.info(e.getMessage());
+			return 0;
+		} catch(NullPointerException e) {
+			return 0;
+		}
+	}
+
+	@Override
+	public double distance(BlockRegion block, Material[] types, World world) {
+		try {
+			get();
+			return region.distance(block, types, world);
+		} catch(InvalidRegionException e) {
+			Log.info(e.getMessage());
+			return 0;
+		} catch(NullPointerException e) {
+			return 0;
 		}
 	}
 

@@ -1,7 +1,10 @@
 package io.sporkpgm.region.types;
 
+import com.google.common.collect.Lists;
 import io.sporkpgm.region.Region;
 import io.sporkpgm.util.RegionUtil;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
@@ -40,17 +43,9 @@ public class CuboidRegion extends Region {
 
 	@Override
 	public boolean isInside(BlockRegion block) {
-		double xMin, xMax, yMin, yMax, zMin, zMax = 0;
-		xMin = getPoints()[1].getX();
-		xMax = getPoints()[0].getX();
-		yMin = getPoints()[1].getY();
-		yMax = getPoints()[0].getY();
-		zMin = getPoints()[1].getZ();
-		zMax = getPoints()[0].getZ();
-
 		Vector point = new Vector(block.getX(), block.getY(), block.getZ());
-		Vector min = new Vector(xMin, yMin, zMin);
-		Vector max = new Vector(xMax, yMax, zMax);
+		Vector min = two.getVector();
+		Vector max = one.getVector();
 
 		return point.isInAABB(min, max);
 	}
@@ -90,6 +85,47 @@ public class CuboidRegion extends Region {
 		}
 
 		return false;
+	}
+
+	@Override
+	public double distance(BlockRegion block) {
+		List<BlockRegion> regions = values(block, true);
+		return RegionUtil.distance(block, regions);
+	}
+
+	@Override
+	public double distance(BlockRegion block, Material type, World world) {
+		List<BlockRegion> regions = values(block, false);
+		List<BlockRegion> matched = new ArrayList<>();
+
+		for(BlockRegion region : regions) {
+			if(region.getBlock(world).getType() == type) {
+				matched.add(region);
+			}
+		}
+
+		return RegionUtil.distance(block, matched);
+	}
+
+	@Override
+	public double distance(BlockRegion block, Material[] types, World world) {
+		List<BlockRegion> regions = values(block, false);
+		List<BlockRegion> matched = new ArrayList<>();
+
+		List<Material> materials = Lists.newArrayList(types);
+		for(BlockRegion region : regions) {
+			if(materials.contains(region.getBlock(world).getType())) {
+				matched.add(region);
+			}
+		}
+
+		return RegionUtil.distance(block, matched);
+	}
+
+	public List<BlockRegion> values(BlockRegion block, boolean hollow) {
+		BlockRegion pos1 = getPoints()[0];
+		BlockRegion pos2 = getPoints()[1];
+		return RegionUtil.cuboid(pos1, pos2, hollow);
 	}
 
 	@Override

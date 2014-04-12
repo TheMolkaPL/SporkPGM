@@ -39,8 +39,7 @@ public class RegionUtil {
 		return cylinder(loc, radius, radius, hollow, true);
 	}
 
-	public static List<BlockRegion> cylinder(BlockRegion loc, double radius, double height, Boolean hollow,
-											 Boolean sphere) {
+	public static List<BlockRegion> cylinder(BlockRegion loc, double radius, double height, boolean hollow, boolean sphere) {
 		if(radius == 0) {
 			radius = 1;
 		}
@@ -68,6 +67,10 @@ public class RegionUtil {
 	}
 
 	public static List<BlockRegion> cuboid(BlockRegion corner1, BlockRegion corner2) {
+		return cuboid(corner1, corner2, false);
+	}
+
+	public static List<BlockRegion> cuboid(BlockRegion corner1, BlockRegion corner2, boolean hollow) {
 		List<BlockRegion> blocks = new ArrayList<>();
 
 		double xMin, xMax, yMin, yMax, zMin, zMax = 0;
@@ -78,18 +81,54 @@ public class RegionUtil {
 		zMin = Math.min(corner1.getZ(), corner2.getZ());
 		zMax = Math.max(corner1.getZ(), corner2.getZ());
 
-		double px = xMin;
-		while(px <= xMax) {
-			double py = yMin;
-			while(py <= yMax) {
-				double pz = zMin;
-				while(pz <= zMax) {
-					blocks.add(new BlockRegion(px, py, pz));
-					pz++;
+		if(hollow) {
+			double x = xMin;
+			double y = yMin;
+			double z = zMin;
+
+			while(y <= yMax) {
+				if(y == yMin || y == yMax) {
+					BlockRegion pos1 = new BlockRegion(xMin, y, zMin);
+					BlockRegion pos2 = new BlockRegion(xMax, y, zMax);
+					blocks.addAll(cuboid(pos1, pos2, false));
+				} else {
+					while(x <= xMax) {
+						blocks.add(new BlockRegion(x, y, z));
+						x++;
+					}
+
+					while(z <= zMax) {
+						blocks.add(new BlockRegion(x, y, z));
+						z++;
+					}
+
+					while(x <= xMin) {
+						blocks.add(new BlockRegion(x, y, z));
+						x--;
+					}
+
+					while(z <= zMin) {
+						blocks.add(new BlockRegion(x, y, z));
+						z--;
+					}
 				}
-				py++;
+
+				y++;
 			}
-			px++;
+		} else {
+			double px = xMin;
+			while(px <= xMax) {
+				double py = yMin;
+				while(py <= yMax) {
+					double pz = zMin;
+					while(pz <= zMax) {
+						blocks.add(new BlockRegion(px, py, pz));
+						pz++;
+					}
+					py++;
+				}
+				px++;
+			}
 		}
 
 		return blocks;
@@ -100,6 +139,18 @@ public class RegionUtil {
 		int max = list.size() - 1;
 		int random = NumberUtil.getRandom(min, max);
 		return list.get(random);
+	}
+
+	public static List<Double> distances(BlockRegion from, List<BlockRegion> blocks) {
+		List<Double> doubles = new ArrayList<>();
+		for(BlockRegion block : blocks) {
+			doubles.add(from.distance(block));
+		}
+		return doubles;
+	}
+
+	public static double distance(BlockRegion from, List<BlockRegion> blocks) {
+		return NumberUtil.getLowest(distances(from, blocks));
 	}
 
 }

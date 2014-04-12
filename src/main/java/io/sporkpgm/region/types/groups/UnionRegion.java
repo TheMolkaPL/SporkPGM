@@ -4,6 +4,7 @@ import io.sporkpgm.region.Region;
 import io.sporkpgm.region.types.BlockRegion;
 import io.sporkpgm.region.types.RectangleRegion;
 import io.sporkpgm.util.Log;
+import io.sporkpgm.util.NumberUtil;
 import org.bukkit.Material;
 import org.bukkit.World;
 
@@ -46,6 +47,7 @@ public class UnionRegion extends Region {
 				return true;
 			}
 		}
+
 		return false;
 	}
 
@@ -101,6 +103,36 @@ public class UnionRegion extends Region {
 
 	public boolean isBelow(BlockRegion block) {
 		return false;
+	}
+
+	@Override
+	public double distance(BlockRegion block) {
+		List<Double> doubles = new ArrayList<>();
+		for(Region region : regions) {
+			doubles.add(region.distance(block));
+		}
+
+		return NumberUtil.getLowest(doubles);
+	}
+
+	@Override
+	public double distance(BlockRegion block, Material type, World world) {
+		List<Double> doubles = new ArrayList<>();
+		for(Region region : regions) {
+			doubles.add(region.distance(block, type, world));
+		}
+
+		return NumberUtil.getLowest(doubles);
+	}
+
+	@Override
+	public double distance(BlockRegion block, Material[] types, World world) {
+		List<Double> doubles = new ArrayList<>();
+		for(Region region : regions) {
+			doubles.add(region.distance(block, types, world));
+		}
+
+		return NumberUtil.getLowest(doubles);
 	}
 
 }

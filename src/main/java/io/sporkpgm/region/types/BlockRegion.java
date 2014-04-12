@@ -212,6 +212,11 @@ public class BlockRegion extends Region {
 				getIntegerY()), (isZDouble() ? getDoubleZ() : getIntegerZ()));
 	}
 
+	public Vector getVector() {
+		return new Vector((isXDouble() ? getDoubleX() : getIntegerX()), (isYDouble() ? getDoubleY() :
+				getIntegerY()), (isZDouble() ? getDoubleZ() : getIntegerZ()));
+	}
+
 	public Block getBlock(World world) {
 		return getLocation(world).getBlock();
 	}

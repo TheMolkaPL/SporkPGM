@@ -2,6 +2,8 @@ package io.sporkpgm.region.types;
 
 import io.sporkpgm.region.Region;
 import io.sporkpgm.util.RegionUtil;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
@@ -64,6 +66,22 @@ public class SphereRegion extends Region {
 		}
 
 		return center.getY() > region.getY();
+	}
+
+	@Override
+	public double distance(BlockRegion block) {
+		BlockRegion center = new BlockRegion(this.center.getStringX(), block.getStringY(), this.center.getStringZ());
+		return center.distance(block) - radius;
+	}
+
+	@Override
+	public double distance(BlockRegion region, Material type, World world) {
+		return distance(region);
+	}
+
+	@Override
+	public double distance(BlockRegion region, Material[] types, World world) {
+		return distance(region);
 	}
 
 	@Override
