@@ -56,6 +56,9 @@ public class CoreBuilder extends Builder {
 
 	public CoreObjective parseCore(SporkMap map, Element element) throws ModuleLoadException, InvalidRegionException {
 		String name = XMLUtil.getElementOrParentValue(element, "name");
+		if(name == null) {
+			name = "Core";
+		}
 
 		String type = XMLUtil.getElementOrParentValue(element, "material");
 		Material material = StringUtil.convertStringToMaterial(type);
@@ -79,15 +82,15 @@ public class CoreBuilder extends Builder {
 		SporkTeam owner = other.getOpposite();
 
 		if(name == null) {
-			throw new ModuleLoadException("A Monument name could not be found");
+			throw new ModuleLoadException("A Core name could not be found");
 		} else if(material == null) {
 			throw new ModuleLoadException("Invalid Material supplied '" + type + "'");
 		} else if(leak <= 0) {
-			throw new ModuleLoadException("Completion % must be greater than 0");
+			throw new ModuleLoadException("Leak distance must be greater than 0");
 		} else if(owner == null) {
-			throw new ModuleLoadException("The owner of a Monument can't be null");
+			throw new ModuleLoadException("The owner of a Core can't be null");
 		} else if(region == null) {
-			throw new ModuleLoadException("The region of a Monument can't be null");
+			throw new ModuleLoadException("The region of a Core can't be null");
 		}
 
 		return new CoreObjective(name, material, region, other, leak);
