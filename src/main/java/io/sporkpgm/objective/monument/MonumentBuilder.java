@@ -9,12 +9,9 @@ import io.sporkpgm.region.Region;
 import io.sporkpgm.region.RegionBuilder;
 import io.sporkpgm.region.exception.InvalidRegionException;
 import io.sporkpgm.team.SporkTeam;
-import io.sporkpgm.team.spawns.SporkSpawn;
-import io.sporkpgm.util.Log;
 import io.sporkpgm.util.StringUtil;
 import io.sporkpgm.util.XMLUtil;
 import org.bukkit.Material;
-import org.dom4j.Document;
 import org.dom4j.Element;
 
 import java.util.ArrayList;
@@ -39,7 +36,7 @@ public class MonumentBuilder extends Builder {
 		List<MonumentObjective> sporks = new ArrayList<>();
 
 		sporks.addAll(parseMonuments(map, XMLUtil.getElements(element, "destroyable")));
-		if(element.element("spawns") != null) {
+		if(element.element("destroyables") != null) {
 			for(Element spawns : XMLUtil.getElements(element, "destroyables")) {
 				sporks.addAll(monuments(map, spawns));
 			}
@@ -101,14 +98,7 @@ public class MonumentBuilder extends Builder {
 		}
 
 		Region region = RegionBuilder.parseCuboid(((Element) element.elements().get(0)));
-
-		SporkTeam owner = null;
-		for(SporkTeam spork : map.getTeams()) {
-			if(!spork.equals(other) && !spork.isObservers()) {
-				owner = spork;
-				break;
-			}
-		}
+		SporkTeam owner = other.getOpposite();
 
 		if(name == null) {
 			throw new ModuleLoadException("A Monument name could not be found");

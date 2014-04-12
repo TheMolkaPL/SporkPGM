@@ -161,6 +161,16 @@ public class SporkTeam {
 		return spawns.get(NumberUtil.getRandom(0, spawns.size() - 1));
 	}
 
+	public SporkTeam getOpposite() {
+		for(SporkTeam spork : map.getTeams()) {
+			if(!spork.equals(this) && !spork.isObservers()) {
+				return spork;
+			}
+		}
+
+		return null;
+	}
+
 	public boolean canJoin(SporkPlayer player) {
 		if(isObservers()) {
 			return true;
