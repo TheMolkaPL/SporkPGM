@@ -322,7 +322,6 @@ public class SporkPlayer implements Listener {
 		if(teleport)
 			teleport(spawn);
 
-		getPlayer().setDisplayName(getPrefix() + team.getColor() + getPlayer().getName());
 		getTeam().getTeam().addPlayer(getPlayer());
 		getPlayer().setScoreboard(team.getMap().getScoreboard());
         getPlayer().setPlayerListName(team.getColor() + getNickname());

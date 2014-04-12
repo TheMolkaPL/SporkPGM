@@ -326,4 +326,13 @@ public class StringUtil {
 		}
 		return string;
 	}
+
+	public static String trim(String string, int length) {
+		if(string.length() > 16) {
+			string = string.substring(0, 16);
+		}
+
+		return string;
+	}
+
 }
