@@ -21,21 +21,7 @@ public class SporkSpawnBuilder {
 		List<SporkSpawn> sporks = new ArrayList<>();
 		Document document = map.getDocument();
 		Element root = document.getRootElement();
-
-
-		for(Element spawns : XMLUtil.getElements(root, "spawns")) {
-			sporks.addAll(parseSpawns(map, XMLUtil.getElements(spawns, "spawn", "default")));
-			for(Element spawns2 : XMLUtil.getElements(root, "spawns")) {
-				sporks.addAll(parseSpawns(map, XMLUtil.getElements(spawns, "spawn", "default")));
-				if(spawns.element("spawns") != null) {
-					sporks.addAll(parseSpawns(map, XMLUtil.getElements(spawns.element("spawns"), "spawn", "default")));
-				}
-			}
-			if(spawns.element("spawns") != null) {
-				sporks.addAll(parseSpawns(map, XMLUtil.getElements(spawns.element("spawns"), "spawn", "default")));
-			}
-		}
-
+		sporks.addAll(spawns(map, root));
 		return sporks;
 	}
 
