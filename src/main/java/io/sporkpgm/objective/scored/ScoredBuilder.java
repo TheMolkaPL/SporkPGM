@@ -28,7 +28,7 @@ public class ScoredBuilder extends Builder {
 		Element scoreElement = root.element("score");
 
 		if(scoreElement != null) {
-			int limit = StringUtil.convertStringToInteger(scoreElement.attributeValue("limit"), ScoredObjective.NO_LIMIT);
+			int limit = StringUtil.convertStringToInteger(scoreElement.attributeValue("time"), ScoredObjective.NO_LIMIT);
 			for(SporkTeam team : map.getTeams()) {
 				objectives.add(new ScoredObjective(team, limit));
 			}

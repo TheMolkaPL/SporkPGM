@@ -29,6 +29,7 @@ import io.sporkpgm.module.modules.friendlyfire.FriendlyFireBuilder;
 import io.sporkpgm.module.modules.maxheight.MaxHeightBuilder;
 import io.sporkpgm.module.modules.mob.MobBuilder;
 import io.sporkpgm.objective.monument.MonumentBuilder;
+import io.sporkpgm.objective.scored.ScoredBuilder;
 import io.sporkpgm.objective.victory.VictoryBuilder;
 import io.sporkpgm.player.SporkPlayer;
 import io.sporkpgm.player.rank.Rank;
@@ -328,6 +329,7 @@ public class Spork extends JavaPlugin {
 
 	protected void builders() {
 		builders = new ArrayList<>();
+		builders.add(ScoredBuilder.class);
 		builders.add(VictoryBuilder.class);
 		builders.add(MonumentBuilder.class);
 		builders.add(MobBuilder.class);
