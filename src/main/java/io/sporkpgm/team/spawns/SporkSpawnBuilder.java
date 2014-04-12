@@ -22,10 +22,30 @@ public class SporkSpawnBuilder {
 		Document document = map.getDocument();
 		Element root = document.getRootElement();
 
+
 		for(Element spawns : XMLUtil.getElements(root, "spawns")) {
 			sporks.addAll(parseSpawns(map, XMLUtil.getElements(spawns, "spawn", "default")));
+			for(Element spawns2 : XMLUtil.getElements(root, "spawns")) {
+				sporks.addAll(parseSpawns(map, XMLUtil.getElements(spawns, "spawn", "default")));
+				if(spawns.element("spawns") != null) {
+					sporks.addAll(parseSpawns(map, XMLUtil.getElements(spawns.element("spawns"), "spawn", "default")));
+				}
+			}
 			if(spawns.element("spawns") != null) {
 				sporks.addAll(parseSpawns(map, XMLUtil.getElements(spawns.element("spawns"), "spawn", "default")));
+			}
+		}
+
+		return sporks;
+	}
+
+	public static List<SporkSpawn> spawns(SporkMap map, Element element) throws ModuleLoadException, InvalidRegionException {
+		List<SporkSpawn> sporks = new ArrayList<>();
+
+		sporks.addAll(parseSpawns(map, XMLUtil.getElements(element, "spawn", "default")));
+		if(element.element("spawns") != null) {
+			for(Element spawns : XMLUtil.getElements(element, "spawns")) {
+				sporks.addAll(spawns(map, spawns));
 			}
 		}
 
@@ -46,7 +66,7 @@ public class SporkSpawnBuilder {
 	public static SporkSpawn parseSpawn(SporkMap map, Element element) throws ModuleLoadException, InvalidRegionException {
 		String nameS = null;
 
-		Log.info("Parsing " + element.asXML());
+		// Log.info("Parsing " + element.asXML());
 		String teamS = element.getParent().attributeValue("team");
 		String yawS = element.getParent().attributeValue("yaw");
 		String pitchS = element.getParent().attributeValue("pitch");
