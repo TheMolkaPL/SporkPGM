@@ -9,10 +9,12 @@ import io.sporkpgm.region.Region;
 import io.sporkpgm.region.RegionBuilder;
 import io.sporkpgm.region.exception.InvalidRegionException;
 import io.sporkpgm.team.SporkTeam;
+import io.sporkpgm.team.spawns.SporkSpawn;
 import io.sporkpgm.util.Log;
 import io.sporkpgm.util.StringUtil;
 import io.sporkpgm.util.XMLUtil;
 import org.bukkit.Material;
+import org.dom4j.Document;
 import org.dom4j.Element;
 
 import java.util.ArrayList;
@@ -29,46 +31,29 @@ public class MonumentBuilder extends Builder {
 	public List<Module> build() throws ModuleLoadException, InvalidRegionException {
 		List<Module> modules = new ArrayList<>();
 		Element root = getRoot();
-		List<Element> destroyablesList = XMLUtil.getElements(root, "destroyables");
-		Log.info("Found " + destroyablesList.size() + " different 'destroyables' elements");
-
-		for(Element destroyables : destroyablesList) {
-			for(Element destroyable : XMLUtil.getElements(destroyables, "destroyable")) {
-				modules.add(parseMonument(map, destroyable));
-			}
-
-			for(Element destroyables2 : XMLUtil.getElements(destroyables, "destroyables")) {
-				for(Element destroyable : XMLUtil.getElements(destroyables2, "destroyable")) {
-					modules.add(parseMonument(map, destroyable));
-				}
-			}
-		}
-
+		modules.addAll(monuments(map, root));
 		return modules;
+	}
 
-		/*
-		List<Module> modules = new ArrayList<>();
-		Element root = getRoot();
-		String name = getRoot().element("destroyables").attributeValue("name");
-		if(name == null) {
-			throw new ModuleLoadException("")
-		}
+	public List<MonumentObjective> monuments(SporkMap map, Element element) throws ModuleLoadException, InvalidRegionException {
+		List<MonumentObjective> sporks = new ArrayList<>();
 
-		Material[] materials = Material.getMaterial(getRoot().element("destroyables").attributeValue("materials"));
-
-		for(Element element : XMLUtil.getElements(root, "destroyables")) {
-			for(Element element1 : XMLUtil.getElements(element, "destroyable")) {
-				String team = element1.attributeValue("owner");
-				SporkTeam mapteam = map.getTeam(team);
-				Element region = (Element) element1.elements().get(0);
-				Region block = RegionBuilder.parseCuboid(region);
-				modules.add(new MonumentObjective(name, material, block, mapteam));
+		sporks.addAll(parseMonuments(map, XMLUtil.getElements(element, "destroyable")));
+		if(element.element("spawns") != null) {
+			for(Element spawns : XMLUtil.getElements(element, "destroyables")) {
+				sporks.addAll(monuments(map, spawns));
 			}
 		}
 
+		return sporks;
+	}
 
-		return modules;
-		*/
+	public List<MonumentObjective> parseMonuments(SporkMap map, List<Element> elements) throws ModuleLoadException, InvalidRegionException {
+		List<MonumentObjective> objectives = new ArrayList<>();
+		for(Element element : elements) {
+			objectives.add(parseMonument(map, element));
+		}
+		return objectives;
 	}
 
 	public MonumentObjective parseMonument(SporkMap map, Element element) throws ModuleLoadException, InvalidRegionException {
