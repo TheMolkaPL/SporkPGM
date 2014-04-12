@@ -94,7 +94,7 @@ public class MonumentObjective extends ObjectiveModule implements InitModule {
 		}
 
 		StringBuilder builder = new StringBuilder();
-		builder.append(color).append(name.toUpperCase()).append(ChatColor.GRAY).append(" was completed by ");
+		builder.append(color).append(name).append(ChatColor.GRAY).append(" was completed by ");
 
 		int i = 1;
 		int max = 3;
@@ -103,7 +103,7 @@ public class MonumentObjective extends ObjectiveModule implements InitModule {
 		List<String> toEnglish = new ArrayList<>();
 		for(String string : ordered.keySet()) {
 			if(i <= max) {
-				String user = ChatColor.AQUA + string;
+				String user = team.getColor() + string;
 				String percentage = " " + ChatColor.GRAY + "(" + getCompletionPercentage(string) + "%)";
 				toEnglish.add(user + percentage);
 			} else if(i == max + 1) {
