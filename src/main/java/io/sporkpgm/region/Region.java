@@ -2,6 +2,7 @@ package io.sporkpgm.region;
 
 import com.google.common.collect.Lists;
 import io.sporkpgm.region.types.BlockRegion;
+import io.sporkpgm.util.NumberUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -94,6 +95,33 @@ public abstract class Region {
 
 	public boolean isBelow(Location location) {
 		return isBelow(location.getX(), location.getY(), location.getZ());
+	}
+
+	public double distance(BlockRegion region) {
+		List<Double> doubles = new ArrayList<>();
+		for(BlockRegion block : getValues()) {
+			doubles.add(region.distance(block));
+		}
+
+		return NumberUtil.getLowest(doubles);
+	}
+
+	public double distance(BlockRegion region, Material type, World world) {
+		List<Double> doubles = new ArrayList<>();
+		for(BlockRegion block : getValues(type, world)) {
+			doubles.add(region.distance(block));
+		}
+
+		return NumberUtil.getLowest(doubles);
+	}
+
+	public double distance(BlockRegion region, Material[] types, World world) {
+		List<Double> doubles = new ArrayList<>();
+		for(BlockRegion block : getValues(types, world)) {
+			doubles.add(region.distance(block));
+		}
+
+		return NumberUtil.getLowest(doubles);
 	}
 
 	public abstract List<BlockRegion> getValues();

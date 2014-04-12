@@ -15,6 +15,10 @@
  */
 package io.sporkpgm.util;
 
+import com.google.common.collect.Lists;
+
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -141,4 +145,35 @@ public class NumberUtil {
 	public static boolean randomBoolean() {
 		return new Random().nextBoolean();
 	}
+
+	public static double getLowest(List<Double> doubles) {
+		double lowest = doubles.get(0);
+		for(int i = 1; i < doubles.size(); i++) {
+			double value = doubles.get(i);
+			if(lowest > value) {
+				lowest = value;
+			}
+		}
+		return lowest;
+	}
+
+	public static List<Object> getLowest(Map<Object, Double> map) {
+		Object[] array = map.keySet().toArray();
+
+		List<Object> objects = Lists.newArrayList(new Object[]{array[0]});
+		double lowest = map.get(objects.get(0));
+		for(int i = 1; i < map.size(); i++) {
+			Object key = array[i];
+			double value = map.get(key);
+			if(lowest > value) {
+				objects = Lists.newArrayList(new Object[]{key});
+				lowest = value;
+			} else if(lowest == value) {
+				objects.add(key);
+			}
+		}
+
+		return objects;
+	}
+
 }

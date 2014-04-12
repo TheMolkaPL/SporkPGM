@@ -216,6 +216,7 @@ public class BlockRegion extends Region {
 		return getLocation(world).getBlock();
 	}
 
+	@Override
 	public double distance(BlockRegion other) {
 		World world = Bukkit.getWorlds().get(0);
 		Location one = getLocation(world);
