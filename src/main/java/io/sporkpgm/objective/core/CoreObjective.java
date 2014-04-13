@@ -16,6 +16,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
+import org.bukkit.block.BlockState;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockSpreadEvent;
@@ -91,13 +92,21 @@ public class CoreObjective extends ObjectiveModule implements InitModule {
 			return;
 		}
 
-		if(event.getEvent() instanceof BlockSpreadEvent) {
-			BlockSpreadEvent spread = (BlockSpreadEvent) event.getEvent();
-			Log.info("Spread " + spread.getNewState().getType().name() + " from " + spread.getBlock().getType().name());
+		BlockState old = event.getOldState();
+		BlockState now = event.getNewState();
+		if(!Liquid.matches(liquid, old.getType()) && !Liquid.matches(liquid, now.getType())) {
+			Log.info(liquid.name() + " doesn't match " + old.getType().name() + " or " + now.getType().name());
+			return;
 		}
 
-		if(!Liquid.matches(liquid, event.getNewState().getType())) {
-			return;
+		BlockRegion location = event.getRegion();
+		if(event.getEvent() instanceof BlockFromToEvent) {
+			BlockFromToEvent from = (BlockFromToEvent) event.getEvent();
+			if(Liquid.matches(liquid, old.getType())) {
+				location = new BlockRegion(from.getBlock().getLocation());
+			} else {
+				location = new BlockRegion(from.getToBlock().getLocation());
+			}
 		}
 
 		/*
@@ -109,13 +118,11 @@ public class CoreObjective extends ObjectiveModule implements InitModule {
 		*/
 
 		if(event.hasPlayer()) {
+			Log.info("Ignoring event because it was caused by a player");
 			return;
 		}
 
-		double distance = region.distance(event.getRegion());
-		Log.info("Checking " + distance + " >= " + leak);
-
-		if(distance >= leak) {
+		if(distance >= leak && distance <= leak + 4) {
 			setComplete(true);
 		}
 	}
