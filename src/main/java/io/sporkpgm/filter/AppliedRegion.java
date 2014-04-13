@@ -50,10 +50,10 @@ public class AppliedRegion extends UnionRegion {
 
 			if(isInside(block.getLocation(), log)) {
 				applied.add(AppliedValue.BLOCK);
-				if(block.hasPlayer() && block.isBreak()) {
-					applied.add(AppliedValue.BLOCK_BREAK);
-				} else if(block.hasPlayer() && block.isPlace()) {
+				if(block.isPlace()) {
 					applied.add(AppliedValue.BLOCK_PLACE);
+				} else if(block.isBreak()) {
+					applied.add(AppliedValue.BLOCK_BREAK);
 				}
 			}
 		}

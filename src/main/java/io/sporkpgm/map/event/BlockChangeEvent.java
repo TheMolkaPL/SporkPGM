@@ -158,7 +158,7 @@ public class BlockChangeEvent extends Event {
 	}
 
 	public boolean isPlace() {
-		List<Material> materials = Lists.newArrayList(new Material[]{Material.LAVA, Material.STATIONARY_LAVA, Material.WATER, Material.STATIONARY_WATER});
+		List<Material> materials = Lists.newArrayList(Material.LAVA, Material.STATIONARY_LAVA, Material.WATER, Material.STATIONARY_WATER);
 		if(getEvent() instanceof BlockFromToEvent) {
 			BlockFromToEvent from = (BlockFromToEvent) getEvent();
 			if(materials.contains(from.getToBlock().getType()) || materials.contains(from.getBlock().getType())) {
