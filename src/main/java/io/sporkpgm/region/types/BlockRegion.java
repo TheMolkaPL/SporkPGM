@@ -228,7 +228,7 @@ public class BlockRegion extends Region {
 		Location two = other.getLocation(world);
 
 		double distance = one.distance(two);
-		Log.info("Distance from " + this + " to " + other + " = " + distance);
+		// Log.info("Distance from " + this + " to " + other + " = " + distance);
 		return distance;
 	}
 
