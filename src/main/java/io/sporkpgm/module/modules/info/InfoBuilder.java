@@ -4,6 +4,7 @@ import io.sporkpgm.map.SporkMap;
 import io.sporkpgm.module.Module;
 import io.sporkpgm.module.builder.Builder;
 import io.sporkpgm.module.exceptions.ModuleLoadException;
+import io.sporkpgm.util.StringUtil;
 import io.sporkpgm.util.XMLUtil;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -40,6 +41,12 @@ public class InfoBuilder extends Builder {
 			throw new ModuleLoadException("Map objectives can't be null");
 		}
 
+		List<String> rules = new ArrayList<>();
+		Element rulesElement = root.element("rules");
+		for(Element rule : XMLUtil.getElements(rulesElement, "rule")) {
+			rules.add(rule.getText());
+		}
+
 		List<Contributor> authors = new ArrayList<>();
 		Element authorsElement = root.element("authors");
 		for(Element author : XMLUtil.getElements(authorsElement, "author")) {
@@ -62,9 +69,15 @@ public class InfoBuilder extends Builder {
 			}
 		}
 
-		boolean friendlyFire = XMLUtil.parseBoolean(root.elementText("friendlyfire"), false);
+		int maxPlayers = 0;
+		Element teamsElement = document.getRootElement().element("teams");
+		for(Element team : XMLUtil.getElements(teamsElement, "team")) {
+			try {
+				maxPlayers += StringUtil.convertStringToInteger(team.attributeValue("max"));
+			} catch(Exception e) { /* nothing */ }
+		}
 
-		modules.add(new InfoModule(name, version, objective, authors, contributors, friendlyFire));
+		modules.add(new InfoModule(name, version, objective, rules, maxPlayers, authors, contributors));
 		return modules;
 	}
 

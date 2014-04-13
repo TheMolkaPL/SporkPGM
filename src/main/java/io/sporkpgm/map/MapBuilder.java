@@ -69,12 +69,16 @@ public class MapBuilder {
 		return info.getName();
 	}
 
-	public String toString() {
-		return info.getName();
-	}
-
 	public String getVersion() {
 		return info.getVersion();
+	}
+
+	public String getObjective() {
+		return info.getObjective();
+	}
+
+	public List<String> getRules() {
+		return info.getRules();
 	}
 
 	public List<Contributor> getAuthors() {
@@ -92,6 +96,10 @@ public class MapBuilder {
 
 	public List<Contributor> getContributors() {
 		return info.getContributors();
+	}
+
+	public int getMaxPlayers() {
+		return info.getMaxPlayers();
 	}
 
 	public String getFolderName() {
@@ -112,6 +120,11 @@ public class MapBuilder {
 
 	public SporkMap getMap() throws MapLoadException, ModuleLoadException, InvalidRegionException, InvalidFilterException {
 		return new SporkMap(this);
+	}
+
+	@Override
+	public String toString() {
+		return info.getName();
 	}
 
 	public static MapBuilder getLoader(String string) {

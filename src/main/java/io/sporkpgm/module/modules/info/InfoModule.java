@@ -15,19 +15,22 @@ public class InfoModule extends Module {
 	private String name;
 	private String version;
 	private String objective;
+	private List<String> rules;
+	private int maxPlayers;
 
 	private List<Contributor> authors;
 	private List<Contributor> contributors;
 
-	public InfoModule(String name, String version, String objective) {
-		this(name, version, objective, new ArrayList<Contributor>(), new ArrayList<Contributor>(), false);
+	public InfoModule(String name, String version, String objective, List<String> rules, int maxPlayers) {
+		this(name, version, objective, rules, maxPlayers, new ArrayList<Contributor>(), new ArrayList<Contributor>());
 	}
 
-	public InfoModule(String name, String version, String objective, List<Contributor> authors,
-					  List<Contributor> contributors, boolean friendlyFire) {
+	public InfoModule(String name, String version, String objective, List<String> rules, int maxPlayers, List<Contributor> authors, List<Contributor> contributors) {
 		this.name = name;
 		this.version = version;
 		this.objective = objective;
+		this.rules = rules;
+		this.maxPlayers = maxPlayers;
 		this.authors = authors;
 		this.contributors = contributors;
 	}
@@ -44,12 +47,20 @@ public class InfoModule extends Module {
 		return objective;
 	}
 
+	public List<String> getRules() {
+		return rules;
+	}
+
 	public List<Contributor> getAuthors() {
 		return authors;
 	}
 
 	public List<Contributor> getContributors() {
 		return contributors;
+	}
+
+	public int getMaxPlayers() {
+		return maxPlayers;
 	}
 
 	public String getShortDescription() {
