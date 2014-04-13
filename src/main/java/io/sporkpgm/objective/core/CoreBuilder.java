@@ -71,15 +71,13 @@ public class CoreBuilder extends Builder {
 			throw new ModuleLoadException((value != null ? value : "null") + " is not a valid integer");
 		}
 
-		SporkTeam other = null;
+		SporkTeam owner = null;
 		String team = XMLUtil.getElementOrParentValue(element, "team");
 		if(team != null) {
-			other = map.getTeam(team);
+			owner = map.getTeam(team);
 		}
 
 		Region region = RegionBuilder.parseCuboid(((Element) element.elements().get(0)));
-
-		SporkTeam owner = other.getOpposite();
 
 		if(name == null) {
 			throw new ModuleLoadException("A Core name could not be found");
@@ -93,7 +91,7 @@ public class CoreBuilder extends Builder {
 			throw new ModuleLoadException("The region of a Core can't be null");
 		}
 
-		return new CoreObjective(name, material, region, other, leak);
+		return new CoreObjective(name, material, region, owner, leak);
 	}
 
 }
