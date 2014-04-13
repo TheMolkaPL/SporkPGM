@@ -100,11 +100,13 @@ public class CoreObjective extends ObjectiveModule implements InitModule {
 			return;
 		}
 
+		/*
 		if(!event.isPlace()) {
 			// Thread.dumpStack();
 			Log.info("Ignoring event because it was not a block being changed from air (" + event.getOldState().getType() + " => " + event.getNewState().getType() + ")");
 			return;
 		}
+		*/
 
 		if(event.hasPlayer()) {
 			return;
