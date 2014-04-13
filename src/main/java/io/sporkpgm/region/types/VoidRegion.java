@@ -2,6 +2,7 @@ package io.sporkpgm.region.types;
 
 import io.sporkpgm.map.SporkMap;
 import io.sporkpgm.region.Region;
+import io.sporkpgm.util.Log;
 import io.sporkpgm.util.RegionUtil;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -33,7 +34,8 @@ public class VoidRegion extends Region {
 
 		World world = map.getWorld();
 		BlockRegion check = new BlockRegion(block.x, "0", block.z);
-		if(check.getBlock(world).getType() != Material.AIR) {
+		Log.info("Checking if " + check + " is AIR (" + check.getBlock(world).getType().name() + ")");
+		if(check.getBlock(world).getType() == Material.AIR) {
 			return true;
 		}
 
