@@ -29,9 +29,9 @@ public class MapCommands {
 	public static void sendInfo(CommandSender sender, MapBuilder loader) {
 		String bold = ChatColor.DARK_PURPLE + "" + ChatColor.BOLD;
 		String bar = ChatColor.RED + "" + ChatColor.STRIKETHROUGH + " ----------- ";
-		sender.sendMessage(bar + ChatColor.DARK_GRAY + loader.getName() + " " + ChatColor.GRAY + loader.getVersion() + bar);
+		sender.sendMessage(bar + ChatColor.DARK_AQUA + loader.getName() + " " + ChatColor.GRAY + loader.getVersion() + bar);
 		if(loader.getObjective() != null) {
-			sender.sendMessage(bold + "Objective: " + loader.getObjective());
+			sender.sendMessage(bold + "Objective: " + ChatColor.GOLD + loader.getObjective());
 		}
 
 		if(loader.getAuthors().size() == 1) {

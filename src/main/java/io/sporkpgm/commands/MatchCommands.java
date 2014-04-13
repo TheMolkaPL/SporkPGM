@@ -20,6 +20,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import static org.bukkit.ChatColor.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,29 +82,29 @@ public class MatchCommands {
 		}
 
 		Match match = Spork.get().getMatch();
-		String bar = ChatColor.RED + "" + ChatColor.STRIKETHROUGH + " ----------- ";
-		sender.sendMessage(bar + ChatColor.DARK_AQUA + "Match Info " + ChatColor.GRAY + "(" + match.getID() + ")" + bar);
+		String bar = RED + "" + STRIKETHROUGH + " ----------- ";
+		sender.sendMessage(bar + DARK_AQUA + "Match Info " + GRAY + "(" + match.getID() + ")" + bar);
 		if(match.isRunning()) {
-			sender.sendMessage(ChatColor.DARK_PURPLE + "Time: " + match.getMatchTime());
+			sender.sendMessage(DARK_PURPLE + "Time: " + match.getMatchTime());
 		}
 
 		SporkMap map = match.getMap();
 		StringBuilder builder = new StringBuilder();
 		for(SporkTeam team : map.getTeams()) {
-			builder.append(team.getColoredName() + ChatColor.WHITE + "" + team.getPlayers().size() + ChatColor.GRAY + "/" + team.getMax() + ChatColor.AQUA + " | ");
+			builder.append(team.getColoredName() + GRAY + ": " + WHITE + "" + team.getPlayers().size() + GRAY + "/" + team.getMax() + AQUA + " | ");
 		}
 
 		SporkTeam obs = map.getObservers();
-		builder.append(obs.getColoredName() + ChatColor.WHITE + "" + obs.getPlayers().size());
+		builder.append(obs.getColoredName() + GRAY + ": " + WHITE + "" + obs.getPlayers().size());
 		sender.sendMessage(builder.toString());
 
 		if(!map.hasModule(ScoredObjective.class)) {
-			sender.sendMessage(ChatColor.RED + "---- Goals ----");
+			sender.sendMessage(RED + "---- Goals ----");
 			for(SporkTeam team : map.getTeams()) {
 				StringBuilder objectives = new StringBuilder();
-				objectives.append(team.getColoredName() + ChatColor.GRAY + ":");
+				objectives.append(team.getColoredName() + GRAY + ":");
 				for(ObjectiveModule module : team.getObjectives()) {
-					builder.append(" " + module.getStatusColour() + module.getName());
+					objectives.append(" " + module.getStatusColour() + module.getName());
 				}
 				sender.sendMessage(objectives.toString());
 			}
