@@ -69,6 +69,10 @@ public class MapBuilder {
 		return info.getName();
 	}
 
+	public String getDescription() {
+		return info.getShortDescription();
+	}
+
 	public String getVersion() {
 		return info.getVersion();
 	}

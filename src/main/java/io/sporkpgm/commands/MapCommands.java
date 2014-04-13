@@ -87,10 +87,8 @@ public class MapCommands {
 				"of" + " " + ChatColor.AQUA + "[pages]" + ChatColor.DARK_AQUA + ")";
 		String header = bar + loaded + bar;
 		List<String> rows = new ArrayList<>();
-		for(MapBuilder loader : Spork.get().getMaps()) {
-			rows.add(ChatColor.GOLD + loader.getName() + " " + ChatColor.DARK_PURPLE + "by " + StringUtil
-					.listToEnglishCompound(loader.getAuthorNames(), ChatColor.RED.toString(), ChatColor.DARK_PURPLE
-							.toString()));
+		for(MapBuilder loader : Spork.getMaps()) {
+			rows.add(loader.getDescription());
 		}
 
 		int results = 8;
