@@ -114,7 +114,7 @@ public class MonumentBuilder extends Builder {
 			throw new ModuleLoadException("The region of a Monument can't be null");
 		}
 
-		return new MonumentObjective(name, materials, region, other, completion);
+		return new MonumentObjective(name, materials, region, owner, completion);
 	}
 
 }

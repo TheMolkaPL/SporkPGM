@@ -148,7 +148,7 @@ public class CoreObjective extends ObjectiveModule implements InitModule {
 			return;
 		}
 
-		if(event.getPlayer().getTeam() != getTeam() && casing.isInside(event.getRegion())) {
+		if(event.getPlayer().getTeam() == getTeam() && casing.isInside(event.getRegion())) {
 			event.setCancelled(true);
 			event.getPlayer().getPlayer().sendMessage(ChatColor.RED + "You can't leak your own core");
 			return;

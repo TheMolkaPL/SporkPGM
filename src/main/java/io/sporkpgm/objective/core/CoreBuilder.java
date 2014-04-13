@@ -71,13 +71,14 @@ public class CoreBuilder extends Builder {
 			throw new ModuleLoadException((value != null ? value : "null") + " is not a valid integer");
 		}
 
-		SporkTeam owner = null;
+		SporkTeam other = null;
 		String team = XMLUtil.getElementOrParentValue(element, "team");
 		if(team != null) {
-			owner = map.getTeam(team);
+			other = map.getTeam(team);
 		}
 
 		Region region = RegionBuilder.parseCuboid(((Element) element.elements().get(0)));
+		SporkTeam owner = other.getOpposite();
 
 		if(name == null) {
 			throw new ModuleLoadException("A Core name could not be found");
