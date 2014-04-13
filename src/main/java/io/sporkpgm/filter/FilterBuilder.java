@@ -1,9 +1,6 @@
 package io.sporkpgm.filter;
 
-import io.sporkpgm.filter.conditions.BlockCondition;
-import io.sporkpgm.filter.conditions.FilterCondition;
-import io.sporkpgm.filter.conditions.MultiCondition;
-import io.sporkpgm.filter.conditions.TeamCondition;
+import io.sporkpgm.filter.conditions.*;
 import io.sporkpgm.filter.exceptions.InvalidFilterException;
 import io.sporkpgm.filter.other.Modifier;
 import io.sporkpgm.filter.other.State;
@@ -58,6 +55,8 @@ public class FilterBuilder {
 				filterList.add(parseTeam(condition, map));
 			} else if(condition.getName().equalsIgnoreCase("block")) {
 				filterList.add(parseBlock(condition));
+			} else if(condition.getName().equalsIgnoreCase("void")) {
+				filterList.add(parseVoid(condition));
 			} /* else if(condition.getName().equalsIgnoreCase("entity")) {
 				filterList.add(parseEntity(condition));
 			} */
@@ -137,6 +136,15 @@ public class FilterBuilder {
 		}
 
 		return new BlockCondition(null, state, material);
+	}
+
+	public static VoidCondition parseVoid(Element element) throws InvalidFilterException {
+		State state = State.ALLOW;
+		if(element.getParent().getName().equalsIgnoreCase("deny")) {
+			state = State.DENY;
+		}
+
+		return new VoidCondition(null, state);
 	}
 
 	/*
