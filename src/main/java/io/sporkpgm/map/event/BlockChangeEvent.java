@@ -12,6 +12,7 @@ import org.bukkit.block.BlockState;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.block.BlockFromToEvent;
 
 import java.util.List;
 
@@ -157,7 +158,15 @@ public class BlockChangeEvent extends Event {
 	}
 
 	public boolean isPlace() {
-		return getOldState().getType() == Material.AIR;
+		List<Material> materials = Lists.newArrayList(new Material[]{Material.LAVA, Material.STATIONARY_LAVA, Material.WATER, Material.STATIONARY_WATER});
+		if(getEvent() instanceof BlockFromToEvent) {
+			BlockFromToEvent from = (BlockFromToEvent) getEvent();
+			if(materials.contains(from.getToBlock().getType()) || materials.contains(from.getBlock().getType())) {
+				return true;
+			}
+		}
+
+		return getOldState().getType() == Material.AIR || materials.contains(getOldState().getType());
 	}
 
 	public BlockRegion getRegion() {
