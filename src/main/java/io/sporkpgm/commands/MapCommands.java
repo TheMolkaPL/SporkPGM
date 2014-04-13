@@ -28,8 +28,8 @@ public class MapCommands {
 
 	public static void sendInfo(CommandSender sender, MapBuilder loader) {
 		String bold = ChatColor.DARK_PURPLE + "" + ChatColor.BOLD;
-		String bar = ChatColor.RED + "" + ChatColor.STRIKETHROUGH + " ----------- ";
-		sender.sendMessage(bar + ChatColor.DARK_AQUA + loader.getName() + " " + ChatColor.GRAY + loader.getVersion() + bar);
+		String bar = ChatColor.RED + "" + ChatColor.STRIKETHROUGH + "-----------";
+		sender.sendMessage(" " + bar + ChatColor.DARK_AQUA + " " + loader.getName() + " " + ChatColor.GRAY + " " + loader.getVersion() + bar + " ");
 		if(loader.getObjective() != null) {
 			sender.sendMessage(bold + "Objective: " + ChatColor.GOLD + loader.getObjective());
 		}

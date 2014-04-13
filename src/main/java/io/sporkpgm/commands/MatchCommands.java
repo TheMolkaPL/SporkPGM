@@ -82,8 +82,8 @@ public class MatchCommands {
 		}
 
 		Match match = Spork.get().getMatch();
-		String bar = RED + "" + STRIKETHROUGH + " ----------- ";
-		sender.sendMessage(bar + DARK_AQUA + "Match Info " + GRAY + "(" + match.getID() + ")" + bar);
+		String bar = RED + "" + STRIKETHROUGH + "-----------";
+		sender.sendMessage(" " + bar + DARK_AQUA + " Match Info " + GRAY + "(" + match.getID() + ") " + bar + " ");
 		if(match.isRunning()) {
 			sender.sendMessage(DARK_PURPLE + "Time: " + match.getMatchTime());
 		}
