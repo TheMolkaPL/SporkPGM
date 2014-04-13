@@ -226,7 +226,10 @@ public class BlockRegion extends Region {
 		World world = Bukkit.getWorlds().get(0);
 		Location one = getLocation(world);
 		Location two = other.getLocation(world);
-		return one.distance(two);
+
+		double distance = one.distance(two);
+		Log.info("Distance from " + this + " to " + other + " = " + distance);
+		return distance;
 	}
 
 	public List<BlockRegion> getValues() {

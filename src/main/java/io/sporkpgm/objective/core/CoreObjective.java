@@ -122,6 +122,7 @@ public class CoreObjective extends ObjectiveModule implements InitModule {
 			return;
 		}
 
+		double distance = region.distance(location);
 		if(distance >= leak && distance <= leak + 4) {
 			setComplete(true);
 		}
