@@ -147,7 +147,7 @@ public class MonumentObjective extends ObjectiveModule implements InitModule {
 			return;
 		}
 
-		if(event.getPlayer().getTeam() == getTeam()) {
+		if(event.getPlayer().getTeam() != getTeam()) {
 			event.setCancelled(true);
 			event.getPlayer().getPlayer().sendMessage(ChatColor.RED + "You can't break your own monument");
 			return;
