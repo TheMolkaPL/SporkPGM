@@ -8,6 +8,8 @@ import io.sporkpgm.Spork;
 import io.sporkpgm.map.SporkMap;
 import io.sporkpgm.match.Match;
 import io.sporkpgm.match.MatchPhase;
+import io.sporkpgm.objective.ObjectiveModule;
+import io.sporkpgm.objective.scored.ScoredObjective;
 import io.sporkpgm.player.SporkPlayer;
 import io.sporkpgm.player.event.PlayerChatEvent;
 import io.sporkpgm.rotation.RotationSlot;
@@ -79,10 +81,37 @@ public class MatchCommands {
 		}
 
 		Match match = Spork.get().getMatch();
-		sender.sendMessage(ChatColor.GOLD + "Match Information");
-		sender.sendMessage(ChatColor.DARK_AQUA + "Map playing: " + match.getMap().getName());
-		sender.sendMessage(ChatColor.DARK_AQUA + "Status: " + match.getPhase().toString());
-		sender.sendMessage(ChatColor.DARK_AQUA + "Match time: " + match.getMatchTime());
+		String bar = ChatColor.RED + "" + ChatColor.STRIKETHROUGH + " ----------- ";
+		sender.sendMessage(bar + ChatColor.DARK_AQUA + "Match Info " + ChatColor.GRAY + "(" + match.getID() + ")" + bar);
+		if(match.isRunning()) {
+			sender.sendMessage(ChatColor.DARK_PURPLE + "Time: " + match.getMatchTime());
+		}
+
+		SporkMap map = match.getMap();
+		StringBuilder builder = new StringBuilder();
+		for(SporkTeam team : map.getTeams()) {
+			builder.append(team.getColoredName() + ChatColor.WHITE + "" + team.getPlayers().size() + ChatColor.GRAY + "/" + team.getMax() + ChatColor.AQUA + " | ");
+		}
+
+		SporkTeam obs = map.getObservers();
+		builder.append(obs.getColoredName() + ChatColor.WHITE + "" + obs.getPlayers().size());
+		sender.sendMessage(builder.toString());
+
+		if(!map.hasModule(ScoredObjective.class)) {
+			sender.sendMessage(ChatColor.RED + "---- Goals ----");
+			for(SporkTeam team : map.getTeams()) {
+				StringBuilder objectives = new StringBuilder();
+				objectives.append(team.getColoredName() + ChatColor.GRAY + ":");
+				for(ObjectiveModule module : team.getObjectives()) {
+					builder.append(" " + module.getStatusColour() + module.getName());
+				}
+				sender.sendMessage(objectives.toString());
+			}
+		}
+
+		if(!match.isRunning()) {
+			match.getMessage();
+		}
 	}
 
 	@Command(aliases = {"g", "!", "all"}, desc = "Global chat", usage = "[message]", min = 1)

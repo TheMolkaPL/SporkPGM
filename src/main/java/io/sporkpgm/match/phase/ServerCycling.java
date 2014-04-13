@@ -26,6 +26,8 @@ import java.util.List;
 
 public class ServerCycling extends ServerPhase {
 
+	RotationSlot next;
+
 	public ServerCycling(Match match, MatchPhase phase) {
 		this.match = match;
 		this.phase = phase;
@@ -64,11 +66,11 @@ public class ServerCycling extends ServerPhase {
 			next = null;
 		}
 
+		this.next = next;
+		String what = getMessage();
 		ChatColor colour = ChatColor.GRAY;
-		String what = "Server restarting";
 		if(next != null) {
-			colour = ChatColor.AQUA;
-			what = "Cycling to " + ChatColor.DARK_AQUA + next.getMap().getName() + colour;
+			colour = ChatColor.DARK_AQUA;
 		}
 
 		try {
@@ -115,7 +117,7 @@ public class ServerCycling extends ServerPhase {
 		}
 
 		if(duration <= 0) {
-			broadcast(colour + what + "!");
+			broadcast(what + "!");
 			match.stop();
 			complete = true;
 			rotation.cycle();
@@ -135,8 +137,19 @@ public class ServerCycling extends ServerPhase {
 		}
 
 		if(show)
-			broadcast(colour + what + " in " + ChatColor.RED + getSeconds() + " second" + (getSeconds() != 1 ? "s" : "") + colour + "!");
+			broadcast(what + " in " + ChatColor.RED + getSeconds() + " second" + (getSeconds() != 1 ? "s" : "") + colour + "!");
 		setTicks(getTicks() - 1);
+	}
+
+	@Override
+	public String getMessage() {
+		ChatColor colour = ChatColor.GRAY;
+		String what = colour + "Server restarting";
+		if(next != null) {
+			colour = ChatColor.AQUA;
+			what = colour + "Cycling to " + ChatColor.DARK_AQUA + next.getMap().getName() + colour;
+		}
+		return what;
 	}
 
 }

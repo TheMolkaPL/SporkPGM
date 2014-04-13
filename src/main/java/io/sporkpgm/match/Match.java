@@ -117,6 +117,10 @@ public class Match {
 		setPhase(phase, duration);
 	}
 
+	public String getMessage() {
+		return runnable.getMessage();
+	}
+
 	public DateTime getStart() {
 		return start;
 	}

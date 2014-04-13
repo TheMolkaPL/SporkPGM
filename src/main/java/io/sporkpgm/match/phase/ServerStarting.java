@@ -65,8 +65,13 @@ public class ServerStarting extends ServerPhase {
 		}
 
 		if(show)
-			broadcast(ChatColor.GREEN + "Match starting in " + ChatColor.RED + getSeconds() + ChatColor.GREEN + " second" + (getSeconds() != 0 ? "s" : "") + "!");
+			broadcast(getMessage());
 		setTicks(getTicks() - 1);
+	}
+
+	@Override
+	public String getMessage() {
+		return ChatColor.GREEN + "Match starting in " + ChatColor.RED + getSeconds() + ChatColor.GREEN + " second" + (getSeconds() != 0 ? "s" : "") + "!";
 	}
 
 }

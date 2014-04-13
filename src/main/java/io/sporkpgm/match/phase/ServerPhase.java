@@ -59,6 +59,10 @@ public abstract class ServerPhase implements Runnable {
 		this.complete = complete;
 	}
 
+	public String getMessage() {
+		return null;
+	}
+
 	public FireworkEffect getFirework() {
 		SporkMap map = match.getMap();
 		Color color = getColor(map.getWinner().getColor());
