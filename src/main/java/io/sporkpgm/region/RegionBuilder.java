@@ -6,13 +6,7 @@ import io.sporkpgm.filter.AppliedRegion.AppliedValue;
 import io.sporkpgm.filter.Filter;
 import io.sporkpgm.map.SporkMap;
 import io.sporkpgm.region.exception.InvalidRegionException;
-import io.sporkpgm.region.types.BlockRegion;
-import io.sporkpgm.region.types.CircleRegion;
-import io.sporkpgm.region.types.CuboidRegion;
-import io.sporkpgm.region.types.CylinderRegion;
-import io.sporkpgm.region.types.RectangleRegion;
-import io.sporkpgm.region.types.SearchRegion;
-import io.sporkpgm.region.types.SphereRegion;
+import io.sporkpgm.region.types.*;
 import io.sporkpgm.region.types.groups.ComplementRegion;
 import io.sporkpgm.region.types.groups.IntersectRegion;
 import io.sporkpgm.region.types.groups.NegativeRegion;
@@ -51,6 +45,9 @@ public class RegionBuilder {
 		} else if(type.equalsIgnoreCase("sphere")) {
 			// Log.info("sphere: " + ele.asXML());
 			return parseSphere(ele);
+		} else if(type.equalsIgnoreCase("void")) {
+			// Log.info("void: " + ele.asXML());
+			return parseVoid(ele);
 		} else if(type.equalsIgnoreCase("negative")) {
 			// Log.info("negative: " + ele.asXML());
 			return parseNegative(ele);
@@ -249,6 +246,11 @@ public class RegionBuilder {
 		BlockRegion center = new BlockRegion(x, y, z);
 
 		return new SphereRegion(name, center, radius, false);
+	}
+
+	public static VoidRegion parseVoid(Element ele) {
+		String name = ele.attributeValue("name");
+		return new VoidRegion(name);
 	}
 
 	public static NegativeRegion parseNegative(Element ele) throws InvalidRegionException {
