@@ -85,7 +85,8 @@ public class MatchCommands {
 		String bar = RED + "" + STRIKETHROUGH + "-----------";
 		sender.sendMessage(" " + bar + DARK_AQUA + " Match Info " + GRAY + "(" + match.getID() + ") " + bar + " ");
 		if(match.isRunning()) {
-			sender.sendMessage(DARK_PURPLE + "Time: " + match.getMatchTime());
+			String time = match.getMatchTime();
+			sender.sendMessage(DARK_PURPLE + "Time: " + ChatColor.GOLD + (time.length() == 2 ? "00:" : "") + time);
 		}
 
 		SporkMap map = match.getMap();
