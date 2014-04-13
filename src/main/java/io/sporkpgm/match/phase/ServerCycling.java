@@ -47,18 +47,23 @@ public class ServerCycling extends ServerPhase {
 					next.load();
 				} catch(RotationLoadException e) {
 					Log.severe(e.getMessage());
+					e.printStackTrace();
 					next = null;
 				} catch(InvalidRegionException e) {
 					Log.severe(e.getMessage());
+					e.printStackTrace();
 					next = null;
 				} catch(ModuleLoadException e) {
 					Log.severe(e.getMessage());
+					e.printStackTrace();
 					next = null;
 				} catch(InvalidFilterException e) {
 					Log.severe(e.getMessage());
+					e.printStackTrace();
 					next = null;
 				} catch(MapLoadException e) {
 					Log.severe(e.getMessage());
+					e.printStackTrace();
 					next = null;
 				}
 			}
