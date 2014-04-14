@@ -26,18 +26,24 @@ public class InfoBuilder extends Builder {
 		List<Module> modules = new ArrayList<>();
 
 		Element root = document.getRootElement();
-		String name = root.element("name").getText();
-		if(name == null) {
+		String name;
+		try {
+			name = root.element("name").getText();
+		} catch (NullPointerException ex) {
 			throw new ModuleLoadException("Map names can't be null");
 		}
 
-		String version = root.element("version").getText();
-		if(version == null) {
+		String version;
+		try {
+			version = root.element("version").getText();
+		} catch (NullPointerException ex) {
 			throw new ModuleLoadException("Map versions can't be null");
 		}
 
-		String objective = root.element("objective").getText();
-		if(objective == null) {
+		String objective;
+		try {
+			objective = root.element("objective").getText();
+		} catch (NullPointerException ex) {
 			throw new ModuleLoadException("Map objectives can't be null");
 		}
 
