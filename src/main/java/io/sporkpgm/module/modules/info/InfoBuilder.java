@@ -29,21 +29,21 @@ public class InfoBuilder extends Builder {
 		String name;
 		try {
 			name = root.element("name").getText();
-		} catch (NullPointerException ex) {
+		} catch(NullPointerException ex) {
 			throw new ModuleLoadException("Map names can't be null");
 		}
 
 		String version;
 		try {
 			version = root.element("version").getText();
-		} catch (NullPointerException ex) {
+		} catch(NullPointerException ex) {
 			throw new ModuleLoadException("Map versions can't be null");
 		}
 
 		String objective;
 		try {
 			objective = root.element("objective").getText();
-		} catch (NullPointerException ex) {
+		} catch(NullPointerException ex) {
 			throw new ModuleLoadException("Map objectives can't be null");
 		}
 
