@@ -30,11 +30,11 @@ public class TimerBuilder extends Builder {
 			if(time_limit != null) {
 				int time = StringUtil.convertStringToInteger(time_limit.getText(), -1);
 				modules.add(new TimerModule(time));
+				return modules;
 			}
-
-			return modules;
 		}
 
+		modules.add(new TimerModule(-1));
 		return modules;
 	}
 
