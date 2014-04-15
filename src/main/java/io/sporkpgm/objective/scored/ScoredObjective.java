@@ -8,6 +8,7 @@ import io.sporkpgm.module.builder.Builder;
 import io.sporkpgm.module.exceptions.ModuleLoadException;
 import io.sporkpgm.objective.ObjectiveModule;
 import io.sporkpgm.team.SporkTeam;
+import io.sporkpgm.util.Log;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 
@@ -51,11 +52,13 @@ public class ScoredObjective extends ObjectiveModule {
 	public boolean checkComplete() {
 		if(hasTimer()) {
 			if(getMap().getTimer().isComplete()) {
+				Log.info("Timer is complete");
 				return isHighest();
 			}
 		}
 
 		if(hasLimit()) {
+			Log.info("Score: " + score + " >= " + limit + " = " + (score >= limit));
 			if(score >= limit) {
 				return isHighest();
 			}
