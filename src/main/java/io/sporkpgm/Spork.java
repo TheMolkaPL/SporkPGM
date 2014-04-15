@@ -12,6 +12,7 @@ import io.sporkpgm.commands.*;
 import io.sporkpgm.filter.exceptions.InvalidFilterException;
 import io.sporkpgm.listeners.BlockListener;
 import io.sporkpgm.listeners.ConnectionListener;
+import io.sporkpgm.listeners.DeathListener;
 import io.sporkpgm.listeners.EntityListener;
 import io.sporkpgm.listeners.FilterTriggerListener;
 import io.sporkpgm.listeners.MapListener;
@@ -383,11 +384,9 @@ public class Spork extends JavaPlugin {
 		registerListener(new PlayerListener());
 		registerListener(new FilterTriggerListener());
 
-		/*
-		if(hasPlugin("Tracker")) {
+		if(hasPlugin("TrackerDeaths")) {
 			registerListener(new DeathListener());
 		}
-		*/
 	}
 
 	public static void registerListeners(Listener... listeners) {
