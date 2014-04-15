@@ -333,6 +333,7 @@ public class Spork extends JavaPlugin {
 
 	protected void builders() {
 		builders = new ArrayList<>();
+		builders.add(TimerBuilder.class);
 		builders.add(ScoredBuilder.class);
 		builders.add(VictoryBuilder.class);
 		builders.add(MonumentBuilder.class);
@@ -342,7 +343,6 @@ public class Spork extends JavaPlugin {
 		builders.add(FriendlyFireBuilder.class);
 		builders.add(MaxHeightBuilder.class);
 		builders.add(ItemRemoveBuilder.class);
-		builders.add(TimerBuilder.class);
 	}
 
 	public Rotation getRotation() {
