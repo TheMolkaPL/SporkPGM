@@ -5,6 +5,7 @@ import io.sporkpgm.module.Module;
 import io.sporkpgm.module.builder.Builder;
 import io.sporkpgm.module.builder.BuilderInfo;
 import io.sporkpgm.module.exceptions.ModuleLoadException;
+import io.sporkpgm.module.modules.tdm.TeamDeathmatchModule;
 import io.sporkpgm.team.SporkTeam;
 import io.sporkpgm.util.StringUtil;
 import org.dom4j.Document;
@@ -26,9 +27,11 @@ public class ScoredBuilder extends Builder {
 		Element scoreElement = root.element("score");
 
 		if(scoreElement != null) {
-			int limit = StringUtil.convertStringToInteger(scoreElement.attributeValue("time"), ScoredObjective.NO_LIMIT);
+			int limit = StringUtil.convertStringToInteger(scoreElement.attributeValue("limit"), ScoredObjective.NO_LIMIT);
 			for(SporkTeam team : map.getTeams()) {
-				objectives.add(new ScoredObjective(team, limit));
+				ScoredObjective scored = new ScoredObjective(team, limit);
+				objectives.add(scored);
+				objectives.add(new TeamDeathmatchModule(scored, 1, 1));
 			}
 		}
 

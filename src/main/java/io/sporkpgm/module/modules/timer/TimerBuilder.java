@@ -1,8 +1,8 @@
 package io.sporkpgm.module.modules.timer;
 
-import io.sporkpgm.map.SporkMap;
 import io.sporkpgm.module.Module;
 import io.sporkpgm.module.builder.Builder;
+import io.sporkpgm.module.builder.BuilderInfo;
 import io.sporkpgm.module.exceptions.ModuleLoadException;
 import io.sporkpgm.util.StringUtil;
 import org.dom4j.Document;
@@ -11,35 +11,30 @@ import org.dom4j.Element;
 import java.util.ArrayList;
 import java.util.List;
 
+@BuilderInfo(documentable = true)
 public class TimerBuilder extends Builder {
 
 	public TimerBuilder(Document document) {
 		super(document);
 	}
 
-	public TimerBuilder(SporkMap map) {
-		super(map);
-	}
-
 	public List<Module> build() throws ModuleLoadException {
 		List<Module> modules = new ArrayList<>();
 
 		Element root = document.getRootElement();
-		Element about = root.element("time");
+		Element about = root.element("score");
 
 		if(about != null) {
-			Element time_limit = about.element("time-limit");
+			Element time_limit = about.element("time");
 
-			int time = -1;
 			if(time_limit != null) {
-				time = StringUtil.convertStringToInteger(time_limit.getText(), -1);
+				int time = StringUtil.convertStringToInteger(time_limit.getText(), -1);
+				modules.add(new TimerModule(time));
 			}
 
-			modules.add(new TimerModule(time));
 			return modules;
 		}
 
-		modules.add(new TimerModule(-1));
 		return modules;
 	}
 
