@@ -120,8 +120,8 @@ public class SporkMap {
 		}
 
 		this.modules = builder.getModules();
-		loadModules();
 		this.timer = ((TimerModule) getModule(TimerModule.class));
+		loadModules();
 
 		this.kits = SporkKitBuilder.build(document);
 		if(kits == null) {
