@@ -34,7 +34,7 @@ public class VoidRegion extends Region {
 
 		World world = map.getWorld();
 		BlockRegion check = new BlockRegion(block.x, "0", block.z);
-		Log.info("Checking if " + check + " is AIR (" + check.getBlock(world).getType().name() + ")");
+		// Log.info("Checking if " + check + " is AIR (" + check.getBlock(world).getType().name() + ")");
 		if(check.getBlock(world).getType() == Material.AIR) {
 			return true;
 		}
