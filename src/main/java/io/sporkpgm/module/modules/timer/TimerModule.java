@@ -5,6 +5,7 @@ import io.sporkpgm.match.MatchPhase;
 import io.sporkpgm.module.Module;
 import io.sporkpgm.module.ModuleInfo;
 import io.sporkpgm.module.builder.Builder;
+import io.sporkpgm.util.Log;
 
 @ModuleInfo(name = "TimerModule", description = "Contains information about the time a match will last", listener = false, multiple = false)
 public class TimerModule extends Module {
@@ -38,6 +39,7 @@ public class TimerModule extends Module {
 			return true;
 		}
 
+		Log.info("Time = " + time);
 		if(isInfinite()) {
 			return false;
 		} else {
