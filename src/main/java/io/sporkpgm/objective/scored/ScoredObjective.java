@@ -1,5 +1,6 @@
 package io.sporkpgm.objective.scored;
 
+import com.google.common.collect.Lists;
 import io.sporkpgm.map.SporkMap;
 import io.sporkpgm.module.Module;
 import io.sporkpgm.module.ModuleInfo;
@@ -131,7 +132,7 @@ public class ScoredObjective extends ObjectiveModule {
 			objectives.add((ScoredObjective) module);
 		}
 
-		List<ScoredObjective> scores = objectives.subList(0, 0);
+		List<ScoredObjective> scores = Lists.newArrayList(objectives.get(0));
 		int highest = scores.get(0).getScore();
 
 		for(ScoredObjective score : objectives) {
