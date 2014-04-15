@@ -34,12 +34,6 @@ public class TimerModule extends Module {
 	}
 
 	public boolean isComplete() {
-		MatchPhase phase = match.getPhase();
-		if(phase != MatchPhase.PLAYING) {
-			return true;
-		}
-
-		Log.info("Time = " + time);
 		if(isInfinite()) {
 			return false;
 		} else {

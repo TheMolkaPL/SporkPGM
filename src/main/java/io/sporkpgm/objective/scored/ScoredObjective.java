@@ -52,13 +52,13 @@ public class ScoredObjective extends ObjectiveModule {
 	public boolean checkComplete() {
 		if(hasTimer()) {
 			if(getMap().getTimer().isComplete()) {
-				Log.info("Timer is complete");
+				// Log.info("Timer is complete");
 				return isHighest();
 			}
 		}
 
 		if(hasLimit()) {
-			Log.info("Score: " + score + " >= " + limit + " = " + (score >= limit));
+			// Log.info("Score: " + score + " >= " + limit + " = " + (score >= limit));
 			if(score >= limit) {
 				return isHighest();
 			}
