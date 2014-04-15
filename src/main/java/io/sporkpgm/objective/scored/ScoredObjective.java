@@ -50,11 +50,15 @@ public class ScoredObjective extends ObjectiveModule {
 	}
 
 	public boolean checkComplete() {
-		if(hasTimer()) {
-			if(getMap().getTimer().isComplete()) {
-				// Log.info("Timer is complete");
-				return isHighest();
+		try {
+			if(hasTimer()) {
+				if(getMap().getTimer().isComplete()) {
+					// Log.info("Timer is complete");
+					return isHighest();
+				}
 			}
+		} catch(Exception e) {
+			return false;
 		}
 
 		if(hasLimit()) {
