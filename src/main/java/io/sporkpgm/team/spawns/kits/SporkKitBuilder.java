@@ -110,7 +110,8 @@ public class SporkKitBuilder {
 		Map<Enchantment, Integer> enchantments = parseEnchantments(element, name);
 
 		ItemStack stack = new ItemStack(material, amount, damage);
-		stack.addUnsafeEnchantments(enchantments);
+		if(enchantments != null)
+			stack.addUnsafeEnchantments(enchantments);
 
 		parseColor(stack, element, name);
 		parseLore(stack, element);
